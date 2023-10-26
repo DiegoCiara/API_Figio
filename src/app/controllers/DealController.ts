@@ -125,127 +125,12 @@ class DealController {
         name: name || deal.name,
       };
 
-      const DealStatus = valuesToUpdate.status;
-
-      // Automação de e-mail
-      const automations = await Automations.find();
-
-      for (const automationData of automations) {
-        if (DealStatus === automationData.condition) {
-          const automationEmail = await Automations.findOne({action: "Enviar e-mail"})
-          const automationTask = await Automations.findOne({action: "Registrar atividade"})
-          const automationNotification = await Automations.findOne({action: "Notificar"})
-
-          if ( automationEmail  && automationData.action !== "Registrar atividade" ){
-
-          const mailerProWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Empresarial"});
-          const mailerPersonWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Pessoal"});
-          const createdBy = await  User.findOne(req.userId)
-
-          if (mailerProWithOutput) {
-            console.log(mailerProWithOutput)
-            const Name = deal.name;
-            const Contact = deal.contact.name; 
-            const Email = deal.contact.email;
-            const Company = deal.contact.socialName;
-            const Subject = mailerProWithOutput.subject;
-            const Title = mailerProWithOutput.title;
-            const Color = mailerProWithOutput.color;
-            const Photo = createdBy.picture;
-            const Responsible = createdBy.name;
-            const Client = process.env.CLIENT_NAME;
-            let Text = mailerProWithOutput.text;
-            Text = Text.replace('{{Name}}', Name);
-            Text = Text.replace('{{Contact}}', Contact);
-            Text = Text.replace('{{Company}}', Company);
-            Text = Text.replace('{{Email}}', Email);
-            
-            transport.sendMail({
-              to: Email,
-              from: 'contato@softspace.com.br',
-              subject: Subject,
-              template: 'ProfessionalMailer',
-              context: {Responsible, Photo, Title, Text, Name, Contact, Color, Company, Client },
-            }, (err) => {
-              if (err) {
-                console.log('Email not sent');
-                console.log(err);
-              }
-              transport.close();
-            });
-          } else if (mailerPersonWithOutput) {
-            console.log(mailerPersonWithOutput)
-            const Name = deal.name;
-            const Contact = deal.contact.name; 
-            const Email = deal.contact.email;
-            const Company = deal.contact.socialName;
-            const Subject = mailerPersonWithOutput.subject;
-            const Title = mailerPersonWithOutput.title;
-            const Color = mailerPersonWithOutput.color;
-            const Photo = createdBy.picture;
-            const Responsible = createdBy.name;
-            const Client = process.env.CLIENT_NAME;
-
-            let Text = mailerPersonWithOutput.text;
-            Text = Text.replace('{{Name}}', Name);
-            Text = Text.replace('{{Contact}}', Contact);
-            Text = Text.replace('{{Company}}', Company);
-            Text = Text.replace('{{Email}}', Email);
-
-            transport.sendMail({
-              to: Email,
-              from: 'contato@softspace.com.br',
-              subject: Subject,
-              template: 'PersonalMailer',
-              context: {Responsible, Photo, Title, Text, Name, Color, Contact, Company, Client },
-            }, (err) => {
-              if (err) {
-                console.log('Email not sent');
-                console.log(err);
-              }
-              transport.close();
-            });
-           }
-          }
-           else if ( automationTask ){
-            try{  const tasksInsert = automationData.output;
-
-              const createdBy = await User.findOne(req.userId);
-            
-            
-              if (!deal) {
-                return res.status(404).json({ message: 'Deal does not exist' });
-              }
-            
-              const newActivity = {
-                name: tasksInsert,
-                description: "",
-                createdAt: new Date(),
-                tag: "HOT",
-                createdBy: { id: createdBy.id, name: createdBy.name },
-              };
-            
-              deal.activity.push(newActivity);
-              await deal.save();
-
-            } catch (error) {
-              console.log(error)
-              return res.status(400).json({ error: 'Cannot insert activity, try again' });
-            }
-            }
-        }
-      }
-
-
       await Deal.update(id, { ...valuesToUpdate });
 
-      const currentTimestamp: number = Date.now();
-      console.log(currentTimestamp);
       return res.status(200).json();
     } catch (error) {
       return res.status(400).json({ error: 'Cannot update Deal, try again' });
     }
-
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
@@ -291,139 +176,23 @@ class DealController {
       return res.status(400).json({ error: 'Cannot insert activity, try again' });
     }
   }
+
   public async pipelineUpdate(req: Request, res: Response): Promise<Response> {
     try {
       const { pipeline } = req.body;
       const id = req.params.id;
-  
-      const dealFind = await Deal.findOne(id, { relations: ['company', 'contact', 'pipeline'] });
-  
-      if (!dealFind) return res.status(404).json({ error: 'Deal does not exist' });
-  
-      const destinationPipeline = await Pipeline.findOne(pipeline);
-  
-      if (!destinationPipeline) return res.status(404).json({ error: 'Destination pipeline does not exist' });
-  
-      const destinationPipelineName = destinationPipeline.id;
 
-      // Automação de e-mail
-      const automations = await Automations.find();
+      const deal = await Deal.findOne(id);
 
-      for (const automationData of automations) {
-        if (destinationPipelineName === automationData.condition) {
-          const automationEmail = await Automations.findOne({action: "Enviar e-mail"})
-          const automationTask = await Automations.findOne({action: "Registrar atividade"})
-          const automationNotification = await Automations.findOne({action: "Notificar"})
+      if (!deal) return res.status(404).json({ error: 'Deal not exist' });
 
-          if ( automationEmail  && automationData.action !== "Registrar atividade" ){
-
-          const mailerProWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Empresarial"});
-          const mailerPersonWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Pessoal"});
-          const createdBy = await  User.findOne(req.userId)
-
-          if (mailerProWithOutput) {
-            console.log(mailerProWithOutput)
-            const Name = dealFind.name;
-            const Contact = dealFind.contact.name; 
-            const Email = dealFind.contact.email;
-            const Company = dealFind.contact.socialName;
-            const Subject = mailerProWithOutput.subject;
-            const Title = mailerProWithOutput.title;
-            const Color = mailerProWithOutput.color;
-            const Photo = createdBy.picture;
-            const Responsible = createdBy.name;
-            const Client = process.env.CLIENT_NAME;
-            let Text = mailerProWithOutput.text;
-            Text = Text.replace('{{Name}}', Name);
-            Text = Text.replace('{{Company}}', Company);
-            Text = Text.replace('{{Contact}}', Contact);
-            Text = Text.replace('{{Email}}', Email);
-            
-            transport.sendMail({
-              to: Email,
-              from: 'contato@softspace.com.br',
-              subject: Subject,
-              template: 'ProfessionalMailer',
-              context: {Responsible, Photo, Title, Text, Name, Contact, Company, Color, Client },
-            }, (err) => {
-              if (err) {
-                console.log('Email not sent');
-                console.log(err);
-              }
-              transport.close();
-            });
-          } else if (mailerPersonWithOutput) {
-            console.log(mailerPersonWithOutput)
-            const Name = dealFind.name;
-            const Contact = dealFind.contact.name; 
-            const Email = dealFind.contact.email;
-            const Subject = mailerPersonWithOutput.subject;
-            const Company = dealFind.contact.socialName;
-            const Title = mailerPersonWithOutput.title;
-            const Color = mailerPersonWithOutput.color;
-            const Photo = createdBy.picture;
-            const Responsible = createdBy.name;
-            const Client = process.env.CLIENT_NAME;
-
-            let Text = mailerPersonWithOutput.text;
-            Text = Text.replace('{{Name}}', Name);
-            Text = Text.replace('{{Contact}}', Contact);
-            Text = Text.replace('{{Email}}', Email);
-            Text = Text.replace('{{Company}}', Company);
-
-            transport.sendMail({
-              to: Email,
-              from: 'contato@softspace.com.br',
-              subject: Subject,
-              template: 'PersonalMailer',
-              context: {Responsible, Photo, Title, Text, Name, Color, Company, Contact, Client },
-            }, (err) => {
-              if (err) {
-                console.log('Email not sent');
-                console.log(err);
-              }
-              transport.close();
-            });
-           }
-          }
-           else if ( automationTask ){
-            try{  const tasksInsert = automationData.output;
-
-              const createdBy = await User.findOne(req.userId);
-            
-            
-              if (!dealFind) {
-                return res.status(404).json({ message: 'Deal does not exist' });
-              }
-            
-              const newActivity = {
-                name: tasksInsert,
-                description: "",
-                createdAt: new Date(),
-                tag: "HOT",
-                createdBy: { id: createdBy.id, name: createdBy.name },
-              };
-            
-              dealFind.activity.push(newActivity);
-              await dealFind.save();
-
-            } catch (error) {
-              console.log(error)
-              return res.status(400).json({ error: 'Cannot insert activity, try again' });
-            }
-            }
-        }
-      }
       await Deal.update(id, { pipeline });
 
-
-  
-  
       return res.status(200).json();
     } catch (error) {
       return res.status(400).json({ error: 'Cannot update Deal pipeline, try again' });
     }
   }
-        }
+}
 
 export default new DealController();

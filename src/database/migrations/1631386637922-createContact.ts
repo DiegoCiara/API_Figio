@@ -23,16 +23,6 @@ export class createContact1631386637922 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'cpf_cnpj',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'socialName',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
             name: 'email',
             type: 'varchar',
           },
@@ -48,6 +38,11 @@ export class createContact1631386637922 implements MigrationInterface {
           },
           {
             name: 'state',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'picture',
             type: 'varchar',
             isNullable: true,
           },

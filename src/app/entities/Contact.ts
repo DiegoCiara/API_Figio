@@ -23,12 +23,6 @@ class Contacts extends BaseEntity {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  cpf_cnpj: string;
-
-  @Column({ nullable: true })
-  socialName: string;
-
   @Column()
   email: string;
 
@@ -40,6 +34,9 @@ class Contacts extends BaseEntity {
 
   @Column({ nullable: true })
   state: string;
+
+  @Column({ nullable: true })
+  picture: string;
 
   @CreateDateColumn()
   createdAt: Date;

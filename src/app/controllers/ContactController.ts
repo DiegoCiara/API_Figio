@@ -14,8 +14,6 @@ import { Request, Response } from 'express';
 
 interface ContactInterface {
   name?: string;
-  cpf_cnpj?: string;
-  socialName?: string;
   email?: string;
   phone?: string;
   city?: string;
@@ -26,7 +24,7 @@ interface ContactInterface {
 class ContactController {
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const contacts = (await Contact.find(queryBuilder(req.query))).reverse();
+      const contacts = await Contact.find(queryBuilder(req.query));
 
       return res.status(200).json(contacts);
     } catch (error) {
@@ -47,18 +45,17 @@ class ContactController {
       return res.status(404).json({ error: 'Find contact failed, try again' });
     }
   }
-
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { socialName, name, cpf_cnpj, email, phone, city, state, company }: ContactInterface = req.body;
+      const { name, email, phone, city, state, company }: ContactInterface = req.body;
 
-      if (!name || !email  || !company) return res.status(400).json({message: 'Invalid values for contacts'});
+      if (!name || !email || !company) return res.status(400).json({message: 'Invalid values for contacts'});
 
       const findContact = await Contact.findOne({ email });
 
-      // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
+      if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
-      const contact = await Contact.create({ socialName, name, cpf_cnpj, email, phone, city, state, company }).save(); console.log("deu certo")
+      const contact = await Contact.create({ name, email, phone, city, state, company }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
@@ -85,7 +82,7 @@ class ContactController {
             const Subject = mailerProWithOutput.subject;
             const Title = mailerProWithOutput.title;
             const Color = mailerProWithOutput.color;
-            const Photo = 'https://www.softspace.com.br/favicon.svg';
+            const Photo = process.env.CLIENT_NAME;
             const Responsible = createdBy.name;
             const Client = process.env.CLIENT_NAME;
             let Text = mailerProWithOutput.text;
@@ -112,7 +109,7 @@ class ContactController {
             const Subject = mailerPersonWithOutput.subject;
             const Title = mailerPersonWithOutput.title;
             const Color = mailerPersonWithOutput.color;
-            const Photo = 'https://www.softspace.com.br/favicon.svg';
+            const Photo = process.env.CLIENT_LOGO;
             const Responsible = createdBy.name;
             const Client = process.env.CLIENT_NAME;
 
@@ -148,7 +145,7 @@ class ContactController {
                   const deal = deals[index];
                   await Deals.create({
                     ...deal,
-                    name: contact.socialName,
+                    name: 'Negociação de' + contact.company.name,
                     pipeline: pipelineFind[index],
                     company: contact.company,
                     contact: contact,
@@ -175,13 +172,14 @@ class ContactController {
             }
         }
       }
+      // Notificação para adm ao criar um contato
       const Origin = contact.state;
       confirm.sendMail({
         to: "suporte.diegociara@gmail.com",
         from: '"Softspace" <api@contato.com>',
         subject: `Solicitação de ${name}`, // assunto do email
         template: 'newRequest',
-        context: { name, socialName, email, phone, Origin },
+        context: { name, email, phone, Origin },
       },
       (err) => {
         if (err) console.log('Email not sent')
@@ -213,7 +211,7 @@ class ContactController {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
       const id = req.params.id;
-      const { socialName, name, cpf_cnpj, email, phone, city, state, company }: ContactInterface = req.body;
+      const { name, email, phone, city, state, company }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
@@ -223,8 +221,6 @@ class ContactController {
 
       const valuesToUpdate: ContactInterface = {
         name: name || contact.name,
-        cpf_cnpj: cpf_cnpj || contact.cpf_cnpj,
-        socialName: socialName || contact.socialName,
         email: email || contact.email,
         phone: phone || contact.phone,
         city: city || contact.city,

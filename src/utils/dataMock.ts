@@ -39,8 +39,7 @@ const companies = [
 const contacts = [
   {
     name: 'Exemplo de Contato',
-    cpf_cnpj: '111.222.333-44',
-    email: 'teste@wavecrm.com.br',
+    email: 'teste@figio.com.br',
     phone: '12987979532',
     city: 'São Paulo',
     state: 'SP',

@@ -64,10 +64,6 @@ class AutomationController {
       const { name, input , condition , output, action }: AutomationInterface = req.body;
       const id = req.params.id;
 
-      //if (!id) return res.status(400).json({ message: 'Please send a Automation id' });
-
-     //if (!name) return res.status(400).json({ error: 'Invalid value for Automation' });
-
       const automation = await Automation.findOne(id);
 
       if (!automation) return res.status(404).json({ message: 'automation does not exist' });
