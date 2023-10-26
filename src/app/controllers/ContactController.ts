@@ -8,7 +8,7 @@ import Pipelines from '@entities/Pipeline';
 import Users from '@entities/User';
 import confirm from '@src/modules/confirm';
 import transport from '@src/modules/mailer';
-import { deals } from '@utils/dataMock';
+import { companies, deals } from '@utils/dataMock';
 import queryBuilder from '@utils/queryBuilder';
 import { Request, Response } from 'express';
 
@@ -68,12 +68,13 @@ class ContactController {
           const automationEmail = await Automations.findOne({action: "Enviar e-mail"})
           const CreateNegociation = await Automations.findOne({action: "Criar negociação"})
           const automationNotification = await Automations.findOne({action: "Notificar"})
-
+          const identifierAutomation = automationData.input === "Criar contato"
+          
           if ( automationEmail  && automationData.action !== "Criar negociação" ){
 
-          const mailerProWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Empresarial"});
-          const mailerPersonWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Pessoal"});
-          const createdBy = await  Users.findOne(req.userId)
+            const mailerProWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Empresarial"});
+            const mailerPersonWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Pessoal"});
+            const createdBy = await  Users.findOne(req.userId)
 
           if (mailerProWithOutput) {
             console.log(mailerProWithOutput)
@@ -133,19 +134,21 @@ class ContactController {
            }
           }
            else if ( CreateNegociation ){
-            try{  const tasksInsert = automationData.output;
-
+            try{  
+              const tasksInsert = automationData.output;
+              console.log(tasksInsert, Number(tasksInsert))
               const createdBy = await Users.findOne(req.userId);
               const companiesFind = await Company.find();
               const contactFind = await Contact.find();
               const pipelineFind = await Pipelines.find();
+              const companyDeal = await Company.findOne(contact.company);
         
-              if (!(await Deals.findOne({ name: name })) && contactFind.length >= 1 && pipelineFind.length >= 1 && companiesFind.length >= 1) {
+              if (!(await Deals.findOne({ contact: contact })) && contactFind.length >= 1 && pipelineFind.length >= 1 && companiesFind.length >= 1) {
                 for (let index = 0; index < deals.length; index++) {
                   const deal = deals[index];
                   await Deals.create({
                     ...deal,
-                    name: 'Negociação de' + contact.company.name,
+                    name: 'Negociação de ' + companyDeal.name,
                     pipeline: pipelineFind[index],
                     company: contact.company,
                     contact: contact,
@@ -158,7 +161,7 @@ class ContactController {
                         tag: 'COLD',
                       },
                     ],
-                    value: Number(tasksInsert),
+                    value: Number(CreateNegociation.output),
                     status: 'INPROGRESS',
                   }).save();
                 }

@@ -13,9 +13,10 @@ import Funnels from '@entities/Funnel';
 const mocks = async (): Promise<void> => {
   // inserindo dados iniciais no Banco de dados;
   try {
+
+
     if (!(await User.findOne({ email: 'admin@wavecrm.com.br' }))) {
       const pass = await bcrypt.hash('die140401', 10);
-
       await User.create({ name: 'admin', email: 'admin@wavecrm.com.br', role: 'ADMIN', passwordHash: pass }).save();
     }
 
@@ -54,6 +55,9 @@ const mocks = async (): Promise<void> => {
       }
       console.log('Automations ok');
     }
+
+
+
     if (!(await Mailer.findOne({ subject: 'E-mail de boas vindas' }))) {
       for (let i = 0; i < mailers.length; i++) {
         await Mailer.create({ ...mailers[i] }).save();
@@ -61,6 +65,9 @@ const mocks = async (): Promise<void> => {
       }
       console.log('Mailers ok');
     }
+
+
+
     if (!(await Company.findOne({ name: 'Google' }))) {
       for (const company of companies) {
         // Armazena o objeto criado em uma variável
@@ -81,156 +88,157 @@ const mocks = async (): Promise<void> => {
     }
     const companiesFind = await Company.find();
 
-    if (!(await Contact.findOne({ email: 'teste@wavecrm.com.br' })) && companiesFind.length >= 5) {
+    if (!(await Contact.findOne({ email: 'teste@figio.com.br' })) && companiesFind.length >= 5) {
       for (let index = 0; index < contacts.length; index++) {
         const contact = contacts[index];
         await Contact.create({ ...contact, company: companiesFind[index] }).save();
       }
-    
       console.log('contacts ok');
-    }const contactFind = await Contact.find();
-  const userFind = await User.find();
-  const pipelineFind = await Pipeline.find();
+    }
+    
+    const contactFind = await Contact.find();
+    const userFind = await User.find();
+    const pipelineFind = await Pipeline.find();
 
 
-if (!(await Deal.findOne({ name: 'Exemplo de negociação' })) && contactFind.length >= 1 && pipelineFind.length >= 1 && companiesFind.length >= 1) {
-  for (let index = 0; index < deals.length; index++) {
-    const deal = deals[index];
-    await Deal.create({
-      ...deal,
-      pipeline: pipelineFind[index],
-      company: companiesFind[index],
-      contact: contactFind[index],
-      activity: [
-        {
-          name: 'teste',
-          description: 'testando',
-          createdAt: Date.parse('2021-11-01T17:38:44.873Z'),
-          createdBy: { id: '', name: '' },
-          tag: 'COLD',
-        },
-      ],
-      value: Math.random() * (0 - 0) + 0,
-      status: 'ARCHIVED',
-    }).save();
-  }
+    if (!(await Deal.findOne({ name: 'Exemplo de negociação' })) && contactFind.length >= 1 && pipelineFind.length >= 1 && companiesFind.length >= 1) {
+      for (let index = 0; index < deals.length; index++) {
+        const deal = deals[index];
+        await Deal.create({
+          ...deal,
+          pipeline: pipelineFind[index],
+          company: companiesFind[index],
+          contact: contactFind[index],
+          activity: [
+            {
+              name: 'teste',
+              description: 'testando',
+              createdAt: Date.parse('2021-11-01T17:38:44.873Z'),
+              createdBy: { id: '', name: '' },
+              tag: 'COLD',
+            },
+          ],
+          value: Math.random() * (0 - 0) + 0,
+          status: 'ARCHIVED',
+        }).save();
+      }
 
-      // deals2.map(async (deal, index) => {
-      //   await Deal.create({
-      //     ...deal,
-      //     pipeline: pipelineFind[index],
-      //     company: companiesFind[index],
-      //     contact: contactFind[index],
-      //     // status: 'ARCHIVED',
-      //     activity: [
-      //       {
-      //         name: 'teste',
-      //         description: 'testando',
-      //         // createdAt: new Date(),
-      //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
-      //         tag: 'COLD',
-      //       },
-      //     ],
-      //     value: Math.random() * (132100 - 23580) + 23580,
-      //     status: 'INPROGRESS',
-      //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
-      //   }).save();
-      // });
+        // deals2.map(async (deal, index) => {
+        //   await Deal.create({
+        //     ...deal,
+        //     pipeline: pipelineFind[index],
+        //     company: companiesFind[index],
+        //     contact: contactFind[index],
+        //     // status: 'ARCHIVED',
+        //     activity: [
+        //       {
+        //         name: 'teste',
+        //         description: 'testando',
+        //         // createdAt: new Date(),
+        //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
+        //         tag: 'COLD',
+        //       },
+        //     ],
+        //     value: Math.random() * (132100 - 23580) + 23580,
+        //     status: 'INPROGRESS',
+        //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
+        //   }).save();
+        // });
 
-      // deals3.map(async (deal, index) => {
-      //   await Deal.create({
-      //     ...deal,
-      //     pipeline: pipelineFind[index],
-      //     company: companiesFind[index],
-      //     contact: contactFind[index],
-      //     // status: 'ARCHIVED',
-      //     activity: [
-      //       {
-      //         name: 'teste',
-      //         description: 'testando',
-      //         // createdAt: new Date(),
-      //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
-      //         tag: 'HOT',
-      //       },
-      //     ],
-      //     value: Math.random() * (132100 - 23580) + 23580,
-      //     status: 'LOST',
-      //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
-      //   }).save();
-      //   await Deal.create({
-      //     ...deal,
-      //     pipeline: pipelineFind[index],
-      //     company: companiesFind[index],
-      //     contact: contactFind[index],
-      //     // status: 'ARCHIVED',
-      //     activity: [
-      //       {
-      //         name: 'teste',
-      //         description: 'testando',
-      //         // createdAt: new Date(),
-      //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
-      //         tag: 'HOT',
-      //       },
-      //     ],
-      //     value: Math.random() * (132100 - 23580) + 23580,
-      //     status: 'LOST',
-      //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
-      //   }).save();
-      // });
+        // deals3.map(async (deal, index) => {
+        //   await Deal.create({
+        //     ...deal,
+        //     pipeline: pipelineFind[index],
+        //     company: companiesFind[index],
+        //     contact: contactFind[index],
+        //     // status: 'ARCHIVED',
+        //     activity: [
+        //       {
+        //         name: 'teste',
+        //         description: 'testando',
+        //         // createdAt: new Date(),
+        //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
+        //         tag: 'HOT',
+        //       },
+        //     ],
+        //     value: Math.random() * (132100 - 23580) + 23580,
+        //     status: 'LOST',
+        //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
+        //   }).save();
+        //   await Deal.create({
+        //     ...deal,
+        //     pipeline: pipelineFind[index],
+        //     company: companiesFind[index],
+        //     contact: contactFind[index],
+        //     // status: 'ARCHIVED',
+        //     activity: [
+        //       {
+        //         name: 'teste',
+        //         description: 'testando',
+        //         // createdAt: new Date(),
+        //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
+        //         tag: 'HOT',
+        //       },
+        //     ],
+        //     value: Math.random() * (132100 - 23580) + 23580,
+        //     status: 'LOST',
+        //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
+        //   }).save();
+        // });
 
-      // deals4.map(async (deal, index) => {
-      //   await Deal.create({
-      //     ...deal,
-      //     pipeline: pipelineFind[index],
-      //     company: companiesFind[index],
-      //     contact: contactFind[index],
-      //     // status: 'ARCHIVED',
-      //     activity: [
-      //       {
-      //         name: 'teste',
-      //         description: 'testando',
-      //         // createdAt: new Date(),
-      //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
-      //         tag: 'COLD',
-      //       },
-      //     ],
-      //     value: Math.random() * (132100 - 23580) + 23580,
-      //     status: 'WON',
-      //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
-      //   }).save();
+        // deals4.map(async (deal, index) => {
+        //   await Deal.create({
+        //     ...deal,
+        //     pipeline: pipelineFind[index],
+        //     company: companiesFind[index],
+        //     contact: contactFind[index],
+        //     // status: 'ARCHIVED',
+        //     activity: [
+        //       {
+        //         name: 'teste',
+        //         description: 'testando',
+        //         // createdAt: new Date(),
+        //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
+        //         tag: 'COLD',
+        //       },
+        //     ],
+        //     value: Math.random() * (132100 - 23580) + 23580,
+        //     status: 'WON',
+        //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
+        //   }).save();
 
-      //   await Deal.create({
-      //     ...deal,
-      //     pipeline: pipelineFind[index],
-      //     company: companiesFind[index],
-      //     contact: contactFind[index],
-      //     // status: 'ARCHIVED',
-      //     activity: [
-      //       {
-      //         name: 'teste',
-      //         description: 'testando',
-      //         // createdAt: new Date(),
-      //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
-      //         tag: 'COLD',
-      //       },
-      //     ],
-      //     value: Math.random() * (132100 - 23580) + 23580,
-      //     status: 'WON',
-      //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
-      //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
-      //   }).save();
-      // });
+        //   await Deal.create({
+        //     ...deal,
+        //     pipeline: pipelineFind[index],
+        //     company: companiesFind[index],
+        //     contact: contactFind[index],
+        //     // status: 'ARCHIVED',
+        //     activity: [
+        //       {
+        //         name: 'teste',
+        //         description: 'testando',
+        //         // createdAt: new Date(),
+        //         createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //         createdBy: { id: userFind[index + 1].id, name: userFind[index + 1].name },
+        //         tag: 'COLD',
+        //       },
+        //     ],
+        //     value: Math.random() * (132100 - 23580) + 23580,
+        //     status: 'WON',
+        //     // createdAt: Date.parse(`2021-11-01T17:38:44.873Z`),
+        //     // updatedAt: Date.parse(`2021-11-0${c}T17:38:44.873Z`),
+        //   }).save();
+        // });
 
-      console.log('deals ok');
+        console.log('deals ok');
     }
 
     const dealsFind = await Deal.find();

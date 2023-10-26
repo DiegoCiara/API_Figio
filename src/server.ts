@@ -1,5 +1,5 @@
 import app from './app';
-app.listen(process.env.CLIENT_PORT, () => console.log('Server on'));
+app.listen(process.env.CLIENT_PORT, () => console.log(`Server on in port ${process.env.CLIENT_PORT}`));
 
 // import app from './app';
 // const https = require("https");
@@ -13,7 +13,7 @@ app.listen(process.env.CLIENT_PORT, () => console.log('Server on'));
 //     cert: certificate,
 //   },app)
 //   .listen(process.env.CLIENT_PORT, ()=>{
-//     console.log('server on')
+//     console.log(`Server on in port ${process.env.CLIENT_PORT}`)
 //   });
 
 // Portas utilizadas:
