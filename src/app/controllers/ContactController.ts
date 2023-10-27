@@ -151,14 +151,16 @@ class ContactController {
                     name: 'Negociação de ' + companyDeal.name,
                     pipeline: pipelineFind[index],
                     company: contact.company,
+                    
+                    createdAt: new Date(),
                     contact: contact,
                     activity: [
                       {
-                        name: '',
+                        name: 'Iniciado por automação',
                         description: '',
-                        createdAt: Date.parse('2021-11-01T17:38:44.873Z'),
+                        createdAt: new Date(),
                         createdBy: { id: createdBy.id, name: createdBy.name },
-                        tag: 'COLD',
+                        tag: 'HOT',
                       },
                     ],
                     value: Number(CreateNegociation.output),
