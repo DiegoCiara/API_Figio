@@ -51,9 +51,9 @@ class ContactController {
 
       if (!name || !email || !company) return res.status(400).json({message: 'Invalid values for contacts'});
 
-      const findContact = await Contact.findOne({ email });
+      // const findContact = await Contact.findOne({ email });
 
-      if (findContact) return res.status(400).json({ message: 'Contact already exists' });
+      // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
       const contact = await Contact.create({ name, email, phone, city, state, company }).save();
 
@@ -178,19 +178,19 @@ class ContactController {
         }
       }
       // Notificação para adm ao criar um contato
-      const Origin = contact.state;
-      confirm.sendMail({
-        to: "suporte.diegociara@gmail.com",
-        from: '"Softspace" <api@contato.com>',
-        subject: `Solicitação de ${name}`, // assunto do email
-        template: 'newRequest',
-        context: { name, email, phone, Origin },
-      },
-      (err) => {
-        if (err) console.log('Email not sent')
+      // const Origin = contact.state;
+      // confirm.sendMail({
+      //   to: "suporte.diegociara@gmail.com",
+      //   from: '"Softspace" <api@contato.com>',
+      //   subject: `Solicitação de ${name}`, // assunto do email
+      //   template: 'newRequest',
+      //   context: { name, email, phone, Origin },
+      // },
+      // (err) => {
+      //   if (err) console.log('Email not sent')
 
-        transport.close();
-      });
+      //   transport.close();
+      // });
 
       // transport.sendMail({
       //   to: email,
