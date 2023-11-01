@@ -21,7 +21,7 @@
     - SE NECESSÁRIO, PARA DROPAR O DB, rode `yarn typeorm schema:drop` e depois `yarn typeorm migration:run`;
 
 ### Criando novas tabelas:
-  Alterar arquivos:
+  Alterar arquivos: 
 
   src\app\entities\Contact.ts
   src\database\migrations\1631386637922-createContact.ts
