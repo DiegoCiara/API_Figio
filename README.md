@@ -11,7 +11,7 @@
 ## # Seguindo caminho do docker
 <sub> Caso não use o docker, substitua o passo dele por criar o DB e usuário no psql: <sub>
   - acesse a pasta do backend via terminal;
-  - rode `yarn` ou `npm install`;
+  - rode `yarn` ou `npm install`; 
   - crie um aquivo na raiz do projeto chamado `.env` copie os valores do `.env.exemple` para ele;
   - rode `docker-compose up -d`;
   - rode `yarn typeorm migration:run`;
