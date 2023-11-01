@@ -7,7 +7,7 @@
     - Docker/Docker-compose( linux );
     - Docker Desktop ( Win/Mac ); 
     - PostgreSQL;
-
+ 
 ## # Seguindo caminho do docker
 <sub> Caso não use o docker, substitua o passo dele por criar o DB e usuário no psql: <sub>
   - acesse a pasta do backend via terminal;
