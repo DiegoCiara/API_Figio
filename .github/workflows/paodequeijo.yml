@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: .
-        target: /home/ubuntu/WaveCRM
+        target: /home/ubuntu/API_Figio
 
     - name: SSH para o servidor EC2
       uses: appleboy/ssh-action@master
