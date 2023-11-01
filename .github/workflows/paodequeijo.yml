@@ -35,4 +35,4 @@ jobs:
           sudo ufw allow 3333/tcp
           sudo ufw allow 3333/udp
           yarn typeorm migration:run
-          sudo pm2 start "yarn dev" --name API_Figio
+          pm2 start "yarn dev" --name API_Figio
