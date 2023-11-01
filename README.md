@@ -5,7 +5,7 @@
   - Yarn ou NPM
   - Banco de dados ( Escolha uma opção das 3, no caso docker ele já vai criar o DB e o usuário, caso do postgres, crie o próprio DB e usuário )
     - Docker/Docker-compose( linux );
-    - Docker Desktop ( Win/Mac );
+    - Docker Desktop ( Win/Mac ); 
     - PostgreSQL;
 
 ## # Seguindo caminho do docker
