@@ -89,7 +89,7 @@ class FunnelController {
 
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const funnel = await Funnel.find(queryBuilder(req.query));
+      const funnel = (await Funnel.find(queryBuilder(req.query))).reverse();
 
       if (!funnel) return res.status(400).json({ error: 'Cannot find funnels.' });
 

@@ -34,7 +34,7 @@ class MailerController {
 
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const mailer = await Mailer.find(queryBuilder(req.query));
+      const mailer = (await Mailer.find(queryBuilder(req.query))).reverse();
       if (!mailer) return res.status(400).json({ error: 'Cannot find Mailers.' });
       return res.status(200).json(mailer);
     } catch (error) {

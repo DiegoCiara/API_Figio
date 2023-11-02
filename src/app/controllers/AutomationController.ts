@@ -33,7 +33,7 @@ class AutomationController {
 
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const automation = await Automation.find(queryBuilder(req.query));
+      const automation = (await Automation.find(queryBuilder(req.query))).reverse();
 
       if (!automation) return res.status(400).json({ error: 'Cannot find Automations.' });
 

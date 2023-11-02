@@ -15,7 +15,7 @@ interface CompanyInterface {
 class CompanyController {
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const companies = await Company.find(queryBuilder(req.query));
+      const companies = (await Company.find(queryBuilder(req.query))).reverse();
 
       return res.status(200).json(companies);
     } catch (error) {

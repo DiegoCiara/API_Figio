@@ -24,7 +24,7 @@ interface ContactInterface {
 class ContactController {
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const contacts = await Contact.find(queryBuilder(req.query));
+      const contacts = (await Contact.find(queryBuilder(req.query))).reverse();
 
       return res.status(200).json(contacts);
     } catch (error) {

@@ -78,7 +78,7 @@ class DealController {
 
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const deal = await Deal.find(queryBuilder(req.query));
+      const deal = (await Deal.find(queryBuilder(req.query))).reverse();
       // relations: ['company', 'contact', 'pipeline'],
 
       return res.status(200).json(deal);
