@@ -5,8 +5,8 @@ import app from './app';
 const https = require("https");
 import {readFileSync} from "fs"
 import {join} from "path"
-var privateKey = readFileSync(join(__dirname, "key.pem"));
-var certificate = readFileSync(join(__dirname, "cert.pem"));
+var privateKey = readFileSync(join(__dirname, "~/key.pem"));
+var certificate = readFileSync(join(__dirname, "~/cert.pem"));
 https
   .createServer({
     key: privateKey,
