@@ -25,6 +25,11 @@ export class createDeal1631391066476 implements MigrationInterface {
           },
           {
             // ref
+            name: 'user',
+            type: 'uuid',
+          },
+          {
+            // ref
             name: 'contact',
             type: 'uuid',
           },

@@ -136,8 +136,7 @@ class ContactController {
            else if ( CreateNegociation ){
             try{  
               const tasksInsert = automationData.output;
-              console.log(tasksInsert, Number(tasksInsert))
-              const createdBy = await Users.findOne(req.userId);
+              const createdUser = await Users.findOne(req.userId);
               const companiesFind = await Company.find();
               const contactFind = await Contact.find();
               const pipelineFind = await Pipelines.find();
@@ -151,7 +150,7 @@ class ContactController {
                     name: 'Negociação de ' + companyDeal.name,
                     pipeline: pipelineFind[index],
                     company: contact.company,
-                    
+                    user: createdUser,
                     createdAt: new Date(),
                     contact: contact,
                     activity: [
@@ -159,7 +158,7 @@ class ContactController {
                         name: 'Iniciado por automação',
                         description: '',
                         createdAt: new Date(),
-                        createdBy: { id: createdBy.id, name: createdBy.name },
+                        createdBy: { id: createdUser.id, name: createdUser.name },
                         tag: 'HOT',
                       },
                     ],

@@ -125,6 +125,7 @@ class UserController {
         valuesToUpdate = {
           role: role || user.role,
           email: email || user.email,
+          picture: picture || user.picture,
         };
       }
 
@@ -132,10 +133,11 @@ class UserController {
 
       return res.status(200).json();
     } catch (error) {
+      console.log(error)
       return res.status(400).json({ error: 'Update failed, try again' });
     }
   }
-
+0
   public async delete(req: Request, res: Response): Promise<Response> {
     try {
       const id = req.params.id;

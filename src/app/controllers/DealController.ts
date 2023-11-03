@@ -22,6 +22,7 @@ interface DealInteface {
   priority?: string;
   value?: number;
   status?: string;
+  user?: User;
   activity?: ActivityInterface;
 }
 
@@ -44,25 +45,35 @@ interface ActivityInterface {
 class DealController {
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const {name, deadline, priority, value, status, company, contact, pipeline }: DealInteface = req.body;
+      const {name, deadline, priority, value, status, company, contact, pipeline, user}: DealInteface = req.body;
       const { tag } = req.body;
 
-      if (!name || !company || !contact || !pipeline) return res.status(400).json({ message: 'Invalid values for Deal' });
-
+      
       const createdBy = await  User.findOne(req.userId)
-
+      
       // const createdBy = await idUser;
 
-      const deal = await Deal.create({ name, company, contact, pipeline, deadline, priority, value, status, activity: [  {
-          tag: tag || 'HOT',
-          name: 'Negociação iniciada',
-          description: '',
-          createdAt: new Date(),
-          createdBy: { id: createdBy.id, name: createdBy.name },
-        },
-      ],
+      const deal = await Deal.create({ 
+         name,
+         company,
+         contact,
+         user: createdBy,
+         pipeline,
+         deadline,
+         priority,
+         value,
+         status,
+         activity: [  {
+           tag: tag || 'HOT',
+           name: 'Negociação iniciada',
+           description: '',
+           createdAt: new Date(),
+           createdBy: { id: createdBy.id, name: createdBy.name },
+          },
+        ],
       }).save();
-
+      if (!name || !company || !contact || !pipeline ) return res.status(400).json({ message: 'Invalid values for Deal' });
+      console.log(deal)
       if (!deal) return res.status(400).json({ message: 'Cannot create Deal' });
       
 

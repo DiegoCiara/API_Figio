@@ -12,6 +12,7 @@ import {
 import Company from './Company';
 import Contact from './Contact';
 import Pipeline from './Pipeline';
+import User from './User';
 
 // interface ActivityInterface {}
 
@@ -27,6 +28,10 @@ class Deals extends BaseEntity {
   @ManyToOne((type) => Company)
   @JoinColumn()
   company: Company;
+
+  @ManyToOne((type) => User)
+  @JoinColumn()
+  user: User;
 
   @ManyToOne((type) => Contact)
   @JoinColumn()
