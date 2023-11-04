@@ -19,7 +19,7 @@ interface UserInterface {
 class UserController {
   public async findUsers(req: Request, res: Response): Promise<Response> {
     try {
-      const users = (await User.find(queryBuilder(req.query))).reverse();
+      const users = await User.find(queryBuilder(req.query));
 
       users.map((user) => (user.passwordHash = undefined));
 
