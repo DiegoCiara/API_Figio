@@ -48,6 +48,13 @@ const companies = [
   },
 
 ];
+
+const goal = [
+  {
+    index: '0'
+  }
+]
+
 const contacts = [
   {
     name: 'Exemplo de Contato',
@@ -296,4 +303,4 @@ const deals4 = [
   },
 ];
 
-export { companies, contacts, users, funnels, pipelines, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };
+export { companies, contacts, users, funnels, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };
