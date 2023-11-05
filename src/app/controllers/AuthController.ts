@@ -66,11 +66,11 @@ class AuthController {
       transport.sendMail(
         {
           to: email,
-          from: 'contato@softspace.com.br',
+          from: 'contato@figio.com.br',
           subject: 'Recuperação de senha', // assunto do email
           // html: { path: './src/resources/mail/forgotPassword.html' },
           template: 'forgotPassword',
-          context: { client, token, email: user.email },
+          context: { client, name: user.name, token, email: user.email },
         },
         (err) => {
           if (err) return res.status(400).json({ message: 'Cannot send forgot password email' });

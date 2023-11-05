@@ -44,7 +44,7 @@ const companies = [
     country: '',
     state: '',
     city: '',
-    site: 'www.softspace.com.br',
+    site: 'www.figio.com.br',
   },
 
 ];
@@ -261,7 +261,7 @@ const Consulting =[
 const users = [
   {
     name: 'Suporte Técnico',
-    email: 'suporte@wavecrm.com.br',
+    email: 'suporte@figio.com.br',
     role: 'ADMIN',
     password: 'die140401',
   },

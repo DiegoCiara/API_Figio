@@ -61,11 +61,11 @@ class UserController {
 
       transport.sendMail({
         to: email,
-        from: 'contato@softspace.com.br',
+        from: 'contato@figio.com.br',
         subject: 'Acesso Interno' , // assunto do email
         template: 'newUser',
 
-        context: {client, password , email },
+        context: {client, name, password , email },
       },
       (err) => {
         if (err) console.log('Email not sent')

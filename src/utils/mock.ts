@@ -16,9 +16,9 @@ const mocks = async (): Promise<void> => {
   try {
 
 
-    if (!(await User.findOne({ email: 'admin@wavecrm.com.br' }))) {
+    if (!(await User.findOne({ email: 'admin@figio.com.br' }))) {
       const pass = await bcrypt.hash('die140401', 10);
-      await User.create({ name: 'admin', email: 'admin@wavecrm.com.br', role: 'ADMIN', passwordHash: pass }).save();
+      await User.create({ name: 'admin', email: 'admin@figio.com.br', role: 'ADMIN', passwordHash: pass }).save();
     }
 
 
@@ -90,7 +90,7 @@ const mocks = async (): Promise<void> => {
     }
     
 
-    if (!(await User.findOne({ email: 'suporte@wavecrm.com.br' }))) {
+    if (!(await User.findOne({ email: 'suporte@figio.com.br' }))) {
       users.map(async (admin) => {
         const passwordHash = await bcrypt.hash(admin.password, 10);
         await User.create({ ...admin, passwordHash }).save();
