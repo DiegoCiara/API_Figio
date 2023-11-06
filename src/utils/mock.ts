@@ -32,7 +32,7 @@ const mocks = async (): Promise<void> => {
 
     const funnelsFind = await Funnels.find()
 
-    if (!(await Pipeline.findOne({ name: 'Solicitação de acesso' }))&& funnelsFind.length) {
+    if (!(await Pipeline.findOne({ name: 'Lead' }))&& funnelsFind.length) {
       for (let i = 0; i < pipelines.length; i++) {
         await Pipeline.create({ ...pipelines[i], funnel: funnelsFind[0]  }).save();
         console.log(`Pipeline ${i + 1} criado`); 
