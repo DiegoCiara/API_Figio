@@ -22,7 +22,6 @@ const mocks = async (): Promise<void> => {
       console.log('users ok');
     }
 
-
     if (!(await Funnels.findOne({ name: 'Funil Padrão' }))) {
       for (let i = 0; i < funnels.length; i++) {
         await Funnels.create({ ...funnels[i] }).save();
