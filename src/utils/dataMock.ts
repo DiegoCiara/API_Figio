@@ -1,10 +1,10 @@
 const companies = [
   {
     name: 'Google',
-    country: 'Brasil',
-    state: 'SP',
-    city: 'São Paulo',
-    site: 'www.seusite.com.br',
+    country: '',
+    state: '',
+    city: '',
+    site: '',
     picture: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABcCAMAAADZL1ItAAABF1BMVEX////rQzU0qFNChfT7vAXF1vswffM7gvSFq/fw9f77uAD7ugDrPi/qOCf/vQAvp1DqMR4YokL8wQAopUv+9vXqLRhDg/y12r3v9/H0qaXuaWDtVkvsSj3zn5rqKRLwhH35zsvsUET86+rylpH3vbr2trPtXFLtYlj/+e7qNTf936b61tT8xEL9147+9N/8y2H+79P7wClWkPWTy59lmPXP59QzqkNSsWlFrWDvenPyjYfpIgDvc2vuXBz81YTyfSb2mxrtUTLvayv0jiD4qBTuXy7wdz0ZdfOvx/mduvj95LX+6sWTskXb5f1cq0vStyN0voWfsTl2rUXguRy5tC8toWs/kM46mKgyn3xCjOE8lL03nZGk0680UIZGAAAESUlEQVRogbWWa3vaRhSEFxljwFqktcDcxMWAIamTNkbGKHbrNG2axEnTkLRJ05b//zu6WiFZ0t5BzCc/Frwez5k9WgAUVB8N2+Pnna5bKLjdzvNxezKqq3xPpotex+3b0DTNAhH+Adr9Qqd3sRt3OLAxtcBQwB8Mt+XWe2d9JjbGN856oy3AowHHb0qwMdCF128acu7G+o3WTNs2VAMT5/BcGXxxZquDAzVmiqmMVbN4kKlkfDTVtByqfyMPw9S2HApOJdOcNLYDY5kFYeDn/a3JEnR7F7IrCmQnz0LyZBfymYh8IZugScR+1BWR66LSmbAB3e50Npt2XbtBrS04FYAB6HDRJuzPesPoxYJfOePpLUyThZXu8c6gaXfb1DdHbdeOrcCZ0DM36P5syP7GJNphEjKYsuOALgcc6JwYhx0x+Zxt+nYs/NaoYxfgj2Jynbn4TSiwHOrmVkIGYxbadBX2+0Ty/NFPjxlk4flS1d3JC4ot3gnKqhZPfs6y4TYXDErfVYvFk+rLFLyx47VroyfHxUC/JNh2Lxfy91VCLp78GrNNyQFT1dPQNGa/yjkOEJExu/gbMW4O8iFHeYRw0sJ+Lu0I+5Fg4xbCnEyDH46LKfarl3ZOSUfVS+h1TuRH1Sz5+I7/6UN1AfCMQlffc8mVkrLeVDJTJGi+6crRgapKHx4OTJzHk3zQb8EdhRZErYE+us92D+fxNB90me5e9V0+6CsGml8QHfTBFbikCvIsH/R8n+i9BcJC5zNGjN5X+fAY93ZkrhgH/TIfdBm829N6wgddc6kecUSj3+q9CiplnuZZdOmQfoHVar/zE+GKco33dbZ9tcs/0EKbXHlDoSvZy0Lto2FYK230YSmLnoPMFaf2yTIMA7V00VfZOeJaYyXAxc9GIG3bdCnx+wskrpO1P42NdNO+p/IIpviQSO2viGxYSz00XetS+IDUD3fOitEG8nTIZQqNjzlR0BHcOSMpnUg+UHGQA0NUJZ1Ly1FvyQFjs0TP7sLOpWT5qmQ6jjgPfKX8nAUHtn0133Q7on4QeQ6LbaiwWeTwvIRqsdCG5chnWWaQk6YBWCMWW9rB1pxFTprGWlJz3IQiMu6hL3NGO1KmAViwbRsWWvLgTfyHHefrKb8e4kgCuL+m57nwDET+0eu/s+xgU6e1ZI4yHCdaeotWxG8tmisDxZ++/pY+MuHOS6llseOO6I6xDOT7DkIpF47/T8J4ZobiuB/4RIzfX/97KoiDzEXG5ur6v9NNKPFeyo3tfJmfcoKW1UQqi7SwdM8j7+I7aKGIHLAFPZGwvwnJuCcOt98SobWYjPu93CoUCzVlZBBsHf1Q1JY7DsXXNG5p3ADWSCdx5OtciVorZTgyVFLOwuWZW8iRFoMF93yx9WDb6jqOtVghjncLc31P+7acpntLA/OdaJ1ipoNXtr9q7sbdqLVYeyv8FsBkf7ny1s2FAvZ/bNGCaG8ZOQ8AAAAASUVORK5CYII='
   },
   {
@@ -41,10 +41,10 @@ const companies = [
   },
   {
     name: 'Site',
-    country: '',
-    state: '',
+    country: 'Brasil',
+    state: 'PE',
     city: '',
-    site: 'www.figio.com.br',
+    site: 'www.seusite.com.br',
   },
 
 ];
@@ -77,16 +77,16 @@ const automations = [
   {
     name: 'Automação para criar negociação',
     input: 'Criar contato',
-    condition: "Enviar e-mail",
+    condition: "",
     action: "Criar negociação",
-    output: 19990,
+    output: 0,
   },
   {
-    name: 'Automação de envio de e-mail',
+    name: 'Automação de atividade',
     input: 'Criar contato',
     condition: '',
     action: "Registrar atividade",
-    output: 'Reunião concluída',
+    output: 'Atividade registrada',
   },
 ];
 
@@ -102,10 +102,10 @@ const Models =[
     name: 'Funil de relacionamento',
     description: 'Melhore o relacionamento com seu cliente, faça campanhas de pesquisas, promoções ou ofertas para manter seus clientes engajados com seu negócio.',
   },
-  {
-    name: 'Funil de SaaS(Software as a Service)',
-    description: 'Esse funil é comum em empresas que oferecem serviços de software. Os leads se cadastram, passam pelo processo de onboarding, experimentam uma versão de avaliação, assinam o serviço e são ativados como clientes.',
-  },
+  // {
+  //   name: 'Funil de SaaS(Software as a Service)',
+  //   description: 'Esse funil é comum em empresas que oferecem serviços de software. Os leads se cadastram, passam pelo processo de onboarding, experimentam uma versão de avaliação, assinam o serviço e são ativados como clientes.',
+  // },
   {
     name: 'Funil Cross-selling/Upselling:',
     description: 'Esse funil é focado em aumentar o valor das vendas para clientes existentes. Após a compra inicial, são identificadas oportunidades de upselling ou cross-selling, uma oferta é feita ao cliente, uma venda adicional é realizada e a compra é confirmada.',
@@ -122,28 +122,24 @@ const Models =[
 
 const pipelines = [
   {
-    name: 'Solicitação de acesso',
+    name: 'Lead',
     description: "Sem contato, efetue um contato com informações relevante sobre o produto/serviço e mova para próxima etapa."
   },
   {
-    name: 'Acesso criado',
-    description: "Acesso criado, aguardar prazo de 2 dias."
+    name: 'Primeiro contato',
+    description: "Primeiro contato efetuado com o lead. Aguarde a resposta para iniciar uma simulação."
   },
   {
-    name: 'Feedback',
-    description: "Fazer contato solicitando um feedback e dando algumas informações de boas práticas do sistema."
+    name: 'Simulação',
+    description: "Efetue uma simulação, repasse os valores e aguararde a confirmação para enviar para análise bancária, ou negociar as condições do crédito."
   },
   {
-    name: 'Primeira cobrança',
-    description: "Mandar uma mensagem de lembrete informando que é necessário selecionar um plano."
+    name: 'Proposta',
+    description: "Negocie as condições do crédito para fechamento da proposta."
   },
   {
-    name: 'Segunda cobrança',
-    description: "Mandar mensagem informando que o acesso expirou, e que é necesssáio efetuar o pagamento para prosseguir."
-  },
-  {
-    name: 'Terceira cobrança',
-    description: "Enviar ultima mensagem de cobrança."
+    name: 'Análise bancária',
+    description: "Aguardando liberação do crédito pela análise bancária."
   },
 ];
 
