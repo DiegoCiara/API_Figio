@@ -62,7 +62,7 @@ class AuthController {
         passwordResetExpires: now,
       });
 
-      const client = process.env.DB_NAME
+      const client = process.env.CLIENT_NAME
       transport.sendMail(
         {
           to: email,

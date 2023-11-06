@@ -57,7 +57,7 @@ class UserController {
       if (findUser) return res.status(400).json({ message: 'User already exists' });
 
       const password = generatePassword();
-      const client = process.env.DB_NAME
+      const client = process.env.CLIENT_NAME
 
       transport.sendMail({
         to: email,
