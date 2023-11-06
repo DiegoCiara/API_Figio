@@ -92,7 +92,7 @@ class ContactController {
             
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@softspace.com.br',
+            //   from: 'contato@figio.com.br',
             //   subject: Subject,
             //   template: 'ProfessionalMailer',
             //   context: {Responsible, Photo, Title, Text, Contact, Color, Client },
@@ -120,7 +120,7 @@ class ContactController {
 
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@softspace.com.br',
+            //   from: 'contato@figio.com.br',
             //   subject: Subject,
             //   template: 'PersonalMailer',
             //   context: {Responsible, Photo, Title, Text, Color, Contact, Client },
@@ -193,7 +193,7 @@ class ContactController {
 
       // transport.sendMail({
       //   to: email,
-      //   from: 'contato@softspace.com.br',
+      //   from: 'contato@figio.com.br',
       //   subject: 'Solicitação de acesso ', // assunto do email
       //   template: 'newContact',
 
