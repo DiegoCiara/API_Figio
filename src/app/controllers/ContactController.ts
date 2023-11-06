@@ -90,19 +90,19 @@ class ContactController {
             Text = Text.replace('{{Contact}}', Contact);
             Text = Text.replace('{{Email}}', Email);
             
-            transport.sendMail({
-              to: Email,
-              from: 'contato@softspace.com.br',
-              subject: Subject,
-              template: 'ProfessionalMailer',
-              context: {Responsible, Photo, Title, Text, Contact, Color, Client },
-            }, (err) => {
-              if (err) {
-                console.log('Email not sent');
-                console.log(err);
-              }
-              transport.close();
-            });
+            // transport.sendMail({
+            //   to: Email,
+            //   from: 'contato@softspace.com.br',
+            //   subject: Subject,
+            //   template: 'ProfessionalMailer',
+            //   context: {Responsible, Photo, Title, Text, Contact, Color, Client },
+            // }, (err) => {
+            //   if (err) {
+            //     console.log('Email not sent');
+            //     console.log(err);
+            //   }
+            //   transport.close();
+            // });
           } else if (mailerPersonWithOutput) {
             console.log(mailerPersonWithOutput)
             const Contact = contact.name; 
@@ -118,19 +118,19 @@ class ContactController {
             Text = Text.replace('{{Contact}}', Contact);
             Text = Text.replace('{{Email}}', Email);
 
-            transport.sendMail({
-              to: Email,
-              from: 'contato@softspace.com.br',
-              subject: Subject,
-              template: 'PersonalMailer',
-              context: {Responsible, Photo, Title, Text, Color, Contact, Client },
-            }, (err) => {
-              if (err) {
-                console.log('Email not sent');
-                console.log(err);
-              }
-              transport.close();
-            });
+            // transport.sendMail({
+            //   to: Email,
+            //   from: 'contato@softspace.com.br',
+            //   subject: Subject,
+            //   template: 'PersonalMailer',
+            //   context: {Responsible, Photo, Title, Text, Color, Contact, Client },
+            // }, (err) => {
+            //   if (err) {
+            //     console.log('Email not sent');
+            //     console.log(err);
+            //   }
+            //   transport.close();
+            // });
            }
           }
            else if ( CreateNegociation ){
