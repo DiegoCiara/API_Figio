@@ -27,6 +27,11 @@ export class createContact1631386637922 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'cpf',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'phone',
             type: 'varchar',
             isNullable: true,

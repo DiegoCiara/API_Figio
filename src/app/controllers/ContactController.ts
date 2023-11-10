@@ -14,6 +14,7 @@ import { Request, Response } from 'express';
 
 interface ContactInterface {
   name?: string;
+  cpf?: string;
   email?: string;
   phone?: string;
   city?: string;
@@ -47,7 +48,7 @@ class ContactController {
   }
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, email, phone, city, state, company }: ContactInterface = req.body;
+      const { name, cpf, email, phone, city, state, company }: ContactInterface = req.body;
 
       if (!name || !email || !company) return res.status(400).json({message: 'Invalid values for contacts'});
 
@@ -55,7 +56,7 @@ class ContactController {
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
-      const contact = await Contact.create({ name, email, phone, city, state, company }).save();
+      const contact = await Contact.create({ name, cpf, email, phone, city, state, company }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
@@ -215,7 +216,7 @@ class ContactController {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
       const id = req.params.id;
-      const { name, email, phone, city, state, company }: ContactInterface = req.body;
+      const { name, cpf, email, phone, city, state, company }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
@@ -226,6 +227,7 @@ class ContactController {
       const valuesToUpdate: ContactInterface = {
         name: name || contact.name,
         email: email || contact.email,
+        cpf: cpf || contact.cpf,
         phone: phone || contact.phone,
         city: city || contact.city,
         state: state || contact.state,
