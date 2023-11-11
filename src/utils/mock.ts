@@ -1,5 +1,5 @@
 // mocks
-import { companies, contacts, users, pipelines, deals, deals2, deals3, deals4, goal, automations , mailers, funnels } from './dataMock';
+import { companies, contacts, users, pipelines, deals, deals2, deals3, deals4, goal, automations , mailers, funnels, convenios } from './dataMock';
 import Company from '@entities/Company';
 import Contact from '@entities/Contact';
 import Pipeline from '@entities/Pipeline';
@@ -10,6 +10,7 @@ import Automation from '@entities/Automation';
 import Mailer from '@entities/Mailer';
 import Funnels from '@entities/Funnel';
 import Goal from '@entities/Goal';
+import Convenio from '@entities/Convenio';
 
 const mocks = async (): Promise<void> => {
   // inserindo dados iniciais no Banco de dados;
@@ -65,6 +66,15 @@ const mocks = async (): Promise<void> => {
         console.log(`Mailer ${i + 1} criado`);
       }
       console.log('Mailers ok');
+    }
+
+
+    if (!(await Convenio.findOne({ name: 'INSS' }))) {
+      for (let i = 0; i < convenios.length; i++) {
+        await Convenio.create({ ...convenios[i] }).save();
+        console.log(`Convenio ${i + 1} criado`);
+      }
+      console.log('Convenios ok');
     }
 
 

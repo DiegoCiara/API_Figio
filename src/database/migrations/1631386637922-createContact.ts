@@ -19,6 +19,11 @@ export class createContact1631386637922 implements MigrationInterface {
             type: 'uuid',
           },
           {
+            //ref
+            name: 'convenio',
+            type: 'uuid',
+          },
+          {
             name: 'name',
             type: 'varchar',
           },

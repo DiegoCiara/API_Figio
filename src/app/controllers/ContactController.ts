@@ -2,6 +2,7 @@ import Automations from '@entities/Automation';
 import Companies from '@entities/Company';
 import Company from '@entities/Company';
 import Contact from '@entities/Contact';
+import Convenio from '@entities/Convenio';
 import Deals from '@entities/Deal';
 import Mailers from '@entities/Mailer';
 import Pipelines from '@entities/Pipeline';
@@ -19,6 +20,7 @@ interface ContactInterface {
   phone?: string;
   city?: string;
   state?: string;
+  convenio?: Convenio;
   company?: Company;
 }
 
@@ -48,15 +50,15 @@ class ContactController {
   }
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, cpf, email, phone, city, state, company }: ContactInterface = req.body;
+      const { name, cpf, email, phone, city, state, company, convenio }: ContactInterface = req.body;
 
-      if (!name || !email || !company) return res.status(400).json({message: 'Invalid values for contacts'});
+      if (!name || !company || !convenio) return res.status(400).json({message: 'Invalid values for contacts'});
 
       // const findContact = await Contact.findOne({ email });
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
-      const contact = await Contact.create({ name, cpf, email, phone, city, state, company }).save();
+      const contact = await Contact.create({ name, cpf, email, phone, city, state, convenio, company }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
@@ -216,7 +218,7 @@ class ContactController {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
       const id = req.params.id;
-      const { name, cpf, email, phone, city, state, company }: ContactInterface = req.body;
+      const { name, cpf, email, phone, city, state, convenio, company }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
@@ -228,6 +230,7 @@ class ContactController {
         name: name || contact.name,
         email: email || contact.email,
         cpf: cpf || contact.cpf,
+        convenio: convenio || contact.convenio,
         phone: phone || contact.phone,
         city: city || contact.city,
         state: state || contact.state,

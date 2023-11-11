@@ -6,6 +6,7 @@ import AutomationRoutes from './automation.routes';
 import MailerRoutes from './mailer.routes';
 import GoalRoutes from './goal.routes';
 import CompanyRoutes from './company.routes';
+import ConvenioRoutes from './convenio.routes';
 import ContactRoutes from './contact.routes';
 import PipelineRoutes from './pipeline.routes';
 import FunnelRoutes from './funnel.routes';
@@ -26,6 +27,7 @@ routes.use('/mail', MailerRoutes);
 routes.use('/goal', GoalRoutes);
 routes.use('/funnel', FunnelRoutes);
 routes.use('/company', CompanyRoutes);
+routes.use('/convenio', ConvenioRoutes);
 routes.use('/contact', ContactRoutes);
 routes.use('/deal', DealRoutes);
 

@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import Company from './Company';
+import Convenio from './Convenio';
 
 @Entity()
 class Contacts extends BaseEntity {
@@ -27,7 +28,11 @@ class Contacts extends BaseEntity {
   email: string;
 
   @Column({ nullable: true })
-  cpf: string;4
+  cpf: string;
+
+  @ManyToOne((type) => Convenio)
+  @JoinColumn()
+  convenio: Convenio;
 
   @Column({ nullable: true })
   phone: string;

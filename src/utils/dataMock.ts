@@ -263,6 +263,24 @@ const users = [
   },
 ];
 
+const convenios = [
+  {
+    name:'INSS'
+  },
+  {
+    name:'BPC LOAS'
+  },
+  {
+    name:'FGTS'
+  },
+  {
+    name:'GOV ESTADO'
+  },
+  {
+    name:'GOV FEDERAL'
+  },
+]
+
 const deals = [
   {
     name: 'Exemplo de negociação',
@@ -299,4 +317,4 @@ const deals4 = [
   },
 ];
 
-export { companies, contacts, users, funnels, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };
+export { companies, contacts, users, convenios, funnels, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };
