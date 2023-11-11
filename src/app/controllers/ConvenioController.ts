@@ -22,11 +22,11 @@ class ConvenioController {
     try {
       const id = req.params.id;
 
-      if (!id) return res.status(400).json({ message: 'Please send a company id' });
+      if (!id) return res.status(400).json({ message: 'Please send a convenio id' });
 
-      const company = await Convenio.findOne(id, queryBuilder(req.query));
+      const convenio = await Convenio.findOne(id, queryBuilder(req.query));
 
-      return res.status(200).json(company);
+      return res.status(200).json(convenio);
     } catch (error) {
       return res.status(404).json({ message: 'Cannot find convenios, try again' });
     }
@@ -36,13 +36,13 @@ class ConvenioController {
     try {
       const { name }: ConvenioInterface = req.body;
 
-      if (!name) return res.status(400).json({ message: 'Invalid company name' });
+      if (!name) return res.status(400).json({ message: 'Invalid convenio name' });
 
-      const company = await Convenio.create({ name }).save();
+      const convenio = await Convenio.create({ name }).save();
 
-      if (!company) return res.status(400).json({ message: 'Cannot create company' });
+      if (!convenio) return res.status(400).json({ message: 'Cannot create convenio' });
 
-      return res.status(201).json({ id: company.id, message: 'Convenio created successfully' });
+      return res.status(201).json({ id: convenio.id, message: 'Convenio created successfully' });
     } catch (error) {
       return res.status(404).json({ message: 'Create failed, try again' });
     }
@@ -53,12 +53,12 @@ class ConvenioController {
       const { name }: ConvenioInterface = req.body;
       const id = req.params.id;
 
-      const company = await Convenio.findOne(id);
+      const convenio = await Convenio.findOne(id);
 
-      if (!company) return res.status(404).json({ message: 'Convenio does not exist' });
+      if (!convenio) return res.status(404).json({ message: 'Convenio does not exist' });
 
       const valuesToUpdate: ConvenioInterface = {
-        name: name || company.name,
+        name: name || convenio.name,
       };
 
       await Convenio.update(id, { ...valuesToUpdate });
@@ -73,13 +73,13 @@ class ConvenioController {
     try {
       const id = req.params.id;
 
-      if (!id) return res.status(400).json({ message: 'Please send a company id' });
+      if (!id) return res.status(400).json({ message: 'Please send a convenio id' });
 
-      const company = await Convenio.findOne(id);
+      const convenio = await Convenio.findOne(id);
 
-      if (!company) return res.status(404).json({ message: 'Cannot find company' });
+      if (!convenio) return res.status(404).json({ message: 'Cannot find convenio' });
 
-      await Convenio.softRemove(company);
+      await Convenio.softRemove(convenio);
 
       return res.status(200).json({ message: 'Convenio deleted successfully' });
     } catch (error) {

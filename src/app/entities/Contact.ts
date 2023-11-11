@@ -21,6 +21,10 @@ class Contacts extends BaseEntity {
   @JoinColumn()
   company: Company;
 
+  @ManyToOne((type) => Convenio)
+  @JoinColumn()
+  convenio: Convenio;
+
   @Column()
   name: string;
 
@@ -29,10 +33,6 @@ class Contacts extends BaseEntity {
 
   @Column({ nullable: true })
   cpf: string;
-
-  @ManyToOne((type) => Convenio)
-  @JoinColumn()
-  convenio: Convenio;
 
   @Column({ nullable: true })
   phone: string;

@@ -81,6 +81,14 @@ export class createContact1631386637922 implements MigrationInterface {
         referencedTableName: 'companies',
         referencedColumnNames: ['id']
       })
+    ); // Criando a foreign key para a coluna 'convenio' se ela se relacionar com outra tabela
+    await queryRunner.createForeignKey(
+      'contacts',
+      new TableForeignKey({
+        columnNames: ['convenio'],
+        referencedTableName: 'convenios', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
+        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
+      })
     );
   }
 
