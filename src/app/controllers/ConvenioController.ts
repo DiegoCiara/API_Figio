@@ -10,7 +10,7 @@ interface ConvenioInterface {
 class ConvenioController {
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const convenios = (await Convenio.find(queryBuilder(req.query))).reverse();
+      const convenios = (await Convenio.find(queryBuilder(req.query)));
 
       return res.status(200).json(convenios);
     } catch (error) {

@@ -143,14 +143,14 @@ class ContactController {
               const companiesFind = await Company.find();
               const contactFind = await Contact.find();
               const pipelineFind = await Pipelines.find();
-              const companyDeal = await Company.findOne(contact.company);
+              const convenioDeal = await Convenio.findOne(contact.convenio);
         
               if (!(await Deals.findOne({ contact: contact })) && contactFind.length >= 1 && pipelineFind.length >= 1 && companiesFind.length >= 1) {
                 for (let index = 0; index < deals.length; index++) {
                   const deal = deals[index];
                   await Deals.create({
                     ...deal,
-                    name: 'Negociação de ' + companyDeal.name,
+                    name: 'Negociação ' + convenioDeal.name,
                     pipeline: pipelineFind[index],
                     company: contact.company,
                     user: createdUser,
