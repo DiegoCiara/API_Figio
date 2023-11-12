@@ -12,6 +12,7 @@ import transport from '@src/modules/mailer';
 import { companies, deals } from '@utils/dataMock';
 import queryBuilder from '@utils/queryBuilder';
 import { Request, Response } from 'express';
+import { pipeline } from 'stream';
 
 interface ContactInterface {
   name?: string;
@@ -142,16 +143,18 @@ class ContactController {
               const createdUser = await Users.findOne(req.userId);
               const companiesFind = await Company.find();
               const contactFind = await Contact.find();
-              const pipelineFind = await Pipelines.find();
+              const pipelineFind = await Pipelines.findOne({id: automationData.output});
               const convenioDeal = await Convenio.findOne(contact.convenio);
+
+              console.log(pipelineFind)
         
-              if (!(await Deals.findOne({ contact: contact })) && contactFind.length >= 1 && pipelineFind.length >= 1 && companiesFind.length >= 1) {
+              if (!(await Deals.findOne({ contact: contact })) && contactFind.length >= 1 && companiesFind.length >= 1) {
                 for (let index = 0; index < deals.length; index++) {
                   const deal = deals[index];
                   await Deals.create({
                     ...deal,
                     name: 'Negociação ' + convenioDeal.name,
-                    pipeline: pipelineFind[index],
+                    pipeline: pipelineFind,
                     company: contact.company,
                     user: createdUser,
                     createdAt: new Date(),
@@ -165,7 +168,7 @@ class ContactController {
                         tag: 'HOT',
                       },
                     ],
-                    value: Number(CreateNegociation.output),
+                    value: 0,
                     status: 'INPROGRESS',
                   }).save();
                 }

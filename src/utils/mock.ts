@@ -50,13 +50,13 @@ const mocks = async (): Promise<void> => {
     //   console.log('pipelines second ok');
     // }
     
-    if (!(await Automation.findOne({ name: 'Automação para criar negociação' }))) {
-      for (let i = 0; i < automations.length; i++) {
-        await Automation.create({ ...automations[i] }).save();
-        console.log(`Automation ${i + 1, automations} criado`);
-      }
-      console.log('Automations ok');
-    }
+    // if (!(await Automation.findOne({ name: 'Automação para criar negociação' }))) {
+    //   for (let i = 0; i < automations.length; i++) {
+    //     await Automation.create({ ...automations[i] }).save();
+    //     console.log(`Automation ${i + 1, automations} criado`);
+    //   }
+    //   console.log('Automations ok');
+    // }
 
 
 
