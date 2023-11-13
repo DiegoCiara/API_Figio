@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: .
-        target: /home/ubuntu/API_LimaPromotora
+        target: /home/ubuntu/API_Figio
 
     - name: SSH para o servidor EC2
       uses: appleboy/ssh-action@master
@@ -29,11 +29,11 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /home/ubuntu/API_LimaPromotora
-          sudo pm2 delete API_LimaPromotora
+          cd /home/ubuntu/API_Figio
+          sudo pm2 delete API_Figio
           yarn
           sudo docker-compose up -d
           sudo ufw allow 3001/tcp
           sudo ufw allow 3001/udp
           yarn typeorm migration:run
-          sudo pm2 start "yarn dev" --name API_LimaPromotora
+          sudo pm2 start "yarn dev" --name API_Figio
