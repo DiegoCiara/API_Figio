@@ -12,4 +12,5 @@ ARG CLIENT_PORT
 
 EXPOSE ${CLIENT_PORT}
 
-CMD ['npm', 'dev']
+CMD ["sh", "-c", "docker-compose up -d && yarn typeorm migration:run && yarn dev"]
+
