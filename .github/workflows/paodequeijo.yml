@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: .
-        target: /home/ubuntu/API_Credit
+        target: /home/ubuntu/API_Figio
 
     - name: SSH para o servidor EC2
       uses: appleboy/ssh-action@master
@@ -29,11 +29,14 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /home/ubuntu/API_Credit
-          sudo pm2 delete API_Credit
+
+          cd /home/ubuntu/API_Figio
+          cp /home/ubuntu/cert.pem /home/ubuntu/API_Figio/src/
+          cp /home/ubuntu/key.pem /home/ubuntu/API_Figio/src/
+          sudo pm2 delete API_Figio
           yarn
           sudo docker-compose up -d
-          sudo ufw allow 3002/tcp
-          sudo ufw allow 3002/udp
+          sudo ufw allow 3333/tcp
+          sudo ufw allow 3333/udp
           yarn typeorm migration:run
-          sudo pm2 start "yarn dev" --name API_Credit
+          sudo pm2 start "yarn dev" --name API_Figio
