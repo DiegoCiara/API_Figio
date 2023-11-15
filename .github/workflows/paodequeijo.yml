@@ -31,12 +31,12 @@ jobs:
         script: |
 
           cd /home/ubuntu/API_Figio
-          # cp /home/ubuntu/cert.pem /home/ubuntu/API_Figio/src/
-          # cp /home/ubuntu/key.pem /home/ubuntu/API_Figio/src/
+          sudo cp /home/ubuntu/cert.pem /home/ubuntu/API_Figio/src/
+          sudo cp /home/ubuntu/key.pem /home/ubuntu/API_Figio/src/
           sudo pm2 delete API_Figio
           yarn
           sudo docker-compose up -d
           sudo ufw allow 3333/tcp
           sudo ufw allow 3333/udp
           yarn typeorm migration:run
-          sudo pm2 start "yarn dev" --name API_Figio
+          pm2 start "sudo yarn dev" --name API_Figio
