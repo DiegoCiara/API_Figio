@@ -254,12 +254,31 @@ const Consulting =[
 },
 ]
 
+
+
 const users = [
   {
     name: 'Suporte Técnico',
     email: 'suporte@figio.com.br',
     role: 'ADMIN',
     password: 'die140401',
+  },
+];
+
+const partners = [
+  {
+    name: 'Figio',
+    type: 'Promotora',
+  },
+  {
+    name: 'Bradesco',
+    type: 'Promotora',
+  },
+];
+
+const contracts = [
+  {
+    name: 'Contrato Consignado',
   },
 ];
 
@@ -317,4 +336,4 @@ const deals4 = [
   },
 ];
 
-export { companies, contacts, users, convenios, funnels, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };
+export { companies, contacts, users, convenios, funnels, contracts, partners, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };

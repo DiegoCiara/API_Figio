@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class createContact1631386637922 implements MigrationInterface {
+export class createContract1700396454685 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'contacts',
+        name: 'contracts',
         columns: [
           {
             name: 'id',
@@ -14,61 +14,43 @@ export class createContact1631386637922 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
-            //ref
-            name: 'company',
+            name: 'deal',
             type: 'uuid',
+            isNullable: true,
           },
           {
-            //ref
-            name: 'convenio',
+            name: 'partner',
             type: 'uuid',
+            isNullable: true,
+          },
+          {
+            name: 'bank',
+            type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'name',
             type: 'varchar',
           },
           {
-            name: 'email',
-            type: 'varchar',
+            name: 'deadline',
+            type: 'timestamp',
+            isNullable: true,
           },
           {
-            name: 'cpf',
+            name: 'priority',
             type: 'varchar',
             isNullable: true,
           },
           {
-            name: 'phone',
-            type: 'varchar',
-            isNullable: true,
+            name: 'status',
+            type: 'enum',
+            enum: ['DONE', 'LOST', 'INPROGRESS', 'PENDING'],
+            default: `'INPROGRESS'`,
           },
           {
-            name: 'cep',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'address',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'district',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'city',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'state',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'picture',
-            type: 'varchar',
+            name: 'activity',
+            type: 'jsonb',
             isNullable: true,
           },
           {
@@ -89,25 +71,37 @@ export class createContact1631386637922 implements MigrationInterface {
       })
     );
 
+
     await queryRunner.createForeignKey(
-      'contacts',
+      'contracts',
       new TableForeignKey({
-        columnNames: ['company'],
-        referencedTableName: 'companies',
+        columnNames: ['partner'],
+        referencedTableName: 'partners',
         referencedColumnNames: ['id']
       })
-    ); // Criando a foreign key para a coluna 'convenio' se ela se relacionar com outra tabela
+    );
+
+
     await queryRunner.createForeignKey(
-      'contacts',
+      'contracts',
       new TableForeignKey({
-        columnNames: ['convenio'],
-        referencedTableName: 'convenios', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
-        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
+        columnNames: ['deal'],
+        referencedTableName: 'deals',
+        referencedColumnNames: ['id']
+      })
+    );
+
+    await queryRunner.createForeignKey(
+      'contracts',
+      new TableForeignKey({
+        columnNames: ['bank'],
+        referencedTableName: 'partners',
+        referencedColumnNames: ['id']
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('contacts');
+    await queryRunner.dropTable('contracts');
   }
 }

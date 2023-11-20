@@ -1,5 +1,5 @@
 // mocks
-import { companies, contacts, users, pipelines, deals, deals2, deals3, deals4, goal, automations , mailers, funnels, convenios } from './dataMock';
+import { companies, contacts, partners, contracts, pipelines, deals, deals2, deals3, deals4, goal, automations , mailers, funnels, convenios } from './dataMock';
 import Company from '@entities/Company';
 import Contact from '@entities/Contact';
 import Pipeline from '@entities/Pipeline';
@@ -11,6 +11,8 @@ import Mailer from '@entities/Mailer';
 import Funnels from '@entities/Funnel';
 import Goal from '@entities/Goal';
 import Convenio from '@entities/Convenio';
+import Partner from '@entities/Partner';
+import Contract from '@entities/Contract';
 
 const mocks = async (): Promise<void> => {
   // inserindo dados iniciais no Banco de dados;
@@ -77,9 +79,17 @@ const mocks = async (): Promise<void> => {
       console.log('Convenios ok');
     }
 
+    if (!(await Partner.findOne({ name: 'Figio' }))) {
+      for (let i = 0; i < partners.length; i++) {
+        await Partner.create({ ...partners[i] }).save();
+        console.log(`Partner ${i + 1} criado`);
+      }
+      console.log('Partners ok');
+    }
+
 
     
-    if (!(await Goal.findOne({ index: 0 }))) {
+    if (!(await Goal.findOne({ index: "0" }))) {
       for (let i = 0; i < goal.length; i++) {
         await Goal.create({ ...goal[i] }).save();
         console.log(`Goal ${i + 1} criado`);
@@ -261,6 +271,15 @@ const mocks = async (): Promise<void> => {
         // });
 
         console.log('deals ok');
+    }
+
+
+    if (!(await Contract.findOne({ name: 'Contrato Consignado' }))) {
+      for (let i = 0; i < contracts.length; i++) {
+        await Contract.create({ ...contracts[i] }).save();
+        console.log(`Contract ${i + 1} criado`);
+      }
+      console.log('Contracts ok');
     }
 
     const dealsFind = await Deal.find();

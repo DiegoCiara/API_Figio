@@ -37,6 +37,20 @@ class Contacts extends BaseEntity {
   @Column({ nullable: true })
   phone: string;
 
+
+
+
+  @Column({ nullable: true })
+  cep: string;
+
+  @Column({ nullable: true })
+  address: string;
+
+  @Column({ nullable: true })
+  district: string;
+
+
+  
   @Column({ nullable: true })
   city: string;
 

@@ -19,6 +19,9 @@ interface ContactInterface {
   cpf?: string;
   email?: string;
   phone?: string;
+  cep?: string;
+  address?: string;
+  district?: string;
   city?: string;
   state?: string;
   convenio?: Convenio;
@@ -51,7 +54,7 @@ class ContactController {
   }
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, cpf, email, phone, city, state, company, convenio }: ContactInterface = req.body;
+      const { name, cpf, email, phone, cep, address, district, city, state, company, convenio }: ContactInterface = req.body;
 
       if (!name || !company || !convenio) return res.status(400).json({message: 'Invalid values for contacts'});
 
@@ -59,7 +62,7 @@ class ContactController {
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
-      const contact = await Contact.create({ name, cpf, email, phone, city, state, convenio, company }).save();
+      const contact = await Contact.create({ name, cpf, email, phone, cep, address, district, city, state, convenio, company }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
@@ -221,7 +224,7 @@ class ContactController {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
       const id = req.params.id;
-      const { name, cpf, email, phone, city, state, convenio, company }: ContactInterface = req.body;
+      const { name, cpf, email, phone, cep, address, district, city, state, convenio, company }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
@@ -235,6 +238,9 @@ class ContactController {
         cpf: cpf || contact.cpf,
         convenio: convenio || contact.convenio,
         phone: phone || contact.phone,
+        cep: cep || contact.cep,
+        address: address || contact.address,
+        district: district || contact.district,
         city: city || contact.city,
         state: state || contact.state,
         company: company || contact.company,
