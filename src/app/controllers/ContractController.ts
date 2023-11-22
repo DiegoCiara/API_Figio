@@ -119,7 +119,7 @@ class ContractController {
 
       if (!id) return res.status(400).json({ message: 'Please send Contract id' });
 
-      const contract = await Contract.findOne(id, { relations: ['company'] });
+      const contract = await Contract.findOne(id);
 
       if (!contract) return res.status(404).json({ message: 'Contract does not exist' });
 
