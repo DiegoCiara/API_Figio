@@ -23,43 +23,44 @@ interface ContractInterface {
 class ContractController {
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const contacts = (await Contract.find(queryBuilder(req.query))).reverse();
+      const contracts = (await Contract.find(queryBuilder(req.query))).reverse();
 
-      return res.status(200).json(contacts);
+      return res.status(200).json(contracts);
     } catch (error) {
-      return res.status(404).json({ error: 'Find contact failed, try again' });
+      return res.status(404).json({ error: 'Find contract failed, try again' });
     }
   }
 
   public async findById(req: Request, res: Response): Promise<Response> {
     try {
+      
       const id = req.params.id;
 
-      const contact = await Contract.findOne(id, queryBuilder(req.query));
+      const contract = await Contract.findOne(id, queryBuilder(req.query));
 
-      if (!contact) return res.status(400).json({ message: 'Contract does not exist' });
+      if (!contract) return res.status(400).json({ message: 'Contract does not exist' });
 
-      return res.status(200).json(contact);
+      return res.status(200).json(contract);
     } catch (error) {
-      return res.status(404).json({ error: 'Find contact failed, try again' });
+      return res.status(404).json({ error: 'Find contract failed, try again' });
     }
   }
   public async create(req: Request, res: Response): Promise<Response> {
     try {
       const { name, partner, deal }: ContractInterface = req.body;
 
-      if (!name || !partner || !deal) return res.status(400).json({message: 'Invalid values for contacts'});
+      if (!name || !partner || !deal) return res.status(400).json({message: 'Invalid values for contracts'});
 
       // const findContract = await Contract.findOne({ email });
 
       // if (findContract) return res.status(400).json({ message: 'Contract already exists' });
 
-      const contact = await Contract.create({ name, deal, partner }).save();
+      const contract = await Contract.create({ name, deal, partner }).save();
 
-      if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
+      if (!contract) return res.status(400).json({ message: 'Cannot create contract' });
 
       // Notificação para adm ao criar um contato
-      // const Origin = contact.state;
+      // const Origin = contract.state;
       // confirm.sendMail({
       //   to: "suporte.diegociara@gmail.com",
       //   from: '"figio" <api@contato.com>',
@@ -87,10 +88,10 @@ class ContractController {
       //   transport.close();
       // });
 
-      return res.status(201).json({ id: contact.id });
+      return res.status(201).json({ id: contract.id });
     } catch (error) {
       console.error(error);
-      return res.status(404).json({ error: 'Create contact failed, try again' });
+      return res.status(404).json({ error: 'Create contract failed, try again' });
     }
   }
 
@@ -99,16 +100,16 @@ class ContractController {
       const id = req.params.id;
       const { name, deal, partner }: ContractInterface = req.body;
 
-      if (!id) return res.status(404).json({ message: 'Please send contact id' });
+      if (!id) return res.status(404).json({ message: 'Please send contract id' });
 
-      const contact = await Contract.findOne(id);
+      const contract = await Contract.findOne(id);
 
-      if (!contact) return res.status(404).json({ message: 'Cannot find contact' });
+      if (!contract) return res.status(404).json({ message: 'Cannot find contract' });
 
       const valuesToUpdate: ContractInterface = {
-        name: name || contact.name,
-        deal: deal || contact.deal,
-        partner: partner || contact.partner,
+        name: name || contract.name,
+        deal: deal || contract.deal,
+        partner: partner || contract.partner,
       };
 
       await Contract.update(id, { ...valuesToUpdate });
@@ -125,11 +126,11 @@ class ContractController {
 
       if (!id) return res.status(404).json({ message: 'Please send Contract id' });
 
-      const contact = await Contract.findOne(id);
+      const contract = await Contract.findOne(id);
 
-      if (!contact) return res.status(404).json({ message: 'Contract does not exist' });
+      if (!contract) return res.status(404).json({ message: 'Contract does not exist' });
 
-      await Contract.softRemove(contact);
+      await Contract.softRemove(contract);
 
       return res.status(200).json();
     } catch (error) {
