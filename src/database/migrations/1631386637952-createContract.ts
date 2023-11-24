@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class createContract1700396454685 implements MigrationInterface {
+export class createContract1631386637952 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -14,44 +14,18 @@ export class createContract1700396454685 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
+            //ref
             name: 'deal',
             type: 'uuid',
-            isNullable: true,
           },
           {
+            //ref
             name: 'partner',
             type: 'uuid',
-            isNullable: true,
-          },
-          {
-            name: 'bank',
-            type: 'uuid',
-            isNullable: true,
           },
           {
             name: 'name',
             type: 'varchar',
-          },
-          {
-            name: 'deadline',
-            type: 'timestamp',
-            isNullable: true,
-          },
-          {
-            name: 'priority',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'status',
-            type: 'enum',
-            enum: ['DONE', 'LOST', 'INPROGRESS', 'PENDING'],
-            default: `'INPROGRESS'`,
-          },
-          {
-            name: 'activity',
-            type: 'jsonb',
-            isNullable: true,
           },
           {
             name: 'createdAt',
@@ -71,17 +45,6 @@ export class createContract1700396454685 implements MigrationInterface {
       })
     );
 
-
-    await queryRunner.createForeignKey(
-      'contracts',
-      new TableForeignKey({
-        columnNames: ['partner'],
-        referencedTableName: 'partners',
-        referencedColumnNames: ['id']
-      })
-    );
-
-
     await queryRunner.createForeignKey(
       'contracts',
       new TableForeignKey({
@@ -89,14 +52,13 @@ export class createContract1700396454685 implements MigrationInterface {
         referencedTableName: 'deals',
         referencedColumnNames: ['id']
       })
-    );
-
+    ); // Criando a foreign key para a coluna 'partner' se ela se relacionar com outra tabela
     await queryRunner.createForeignKey(
       'contracts',
       new TableForeignKey({
-        columnNames: ['bank'],
-        referencedTableName: 'partners',
-        referencedColumnNames: ['id']
+        columnNames: ['partner'],
+        referencedTableName: 'partners', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
+        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
       })
     );
   }

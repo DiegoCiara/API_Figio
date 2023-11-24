@@ -1,98 +1,33 @@
-import Contact from '@entities/Contact';
-import Company from '@entities/Company';
-import Contract from '@entities/Contract';
-import Pipeline from '@entities/Pipeline';
-import { Request, Response, json } from 'express';
-import User from '@entities/User';
-import queryBuilder from '@utils/queryBuilder';
-import transport from '@src/modules/mailer';
-import MailerController from './MailerController';
-import Mailers from '@entities/Mailer';
-import { mailers } from '@utils/dataMock';
 import Automations from '@entities/Automation';
-import { NameCompany } from '@src/client';
-import Deal from '@entities/Deal';
+import Companies from '@entities/Partner';
 import Partner from '@entities/Partner';
+import Contract from '@entities/Contract';
+import Deal from '@entities/Deal';
+import Deals from '@entities/Deal';
+import Mailers from '@entities/Mailer';
+import Pipelines from '@entities/Pipeline';
+import Users from '@entities/User';
+import confirm from '@src/modules/confirm';
+import transport from '@src/modules/mailer';
+import { companies, deals } from '@utils/dataMock';
+import queryBuilder from '@utils/queryBuilder';
+import { Request, Response } from 'express';
+import { pipeline } from 'stream';
 
-interface ContractInteface {
-  id?: string;
+interface ContractInterface {
+  name?: string;
   deal?: Deal;
   partner?: Partner;
-  bank?: Partner;
-  name?: string;
-  deadline?: Date;
-  priority?: string;
-  status?: string;
-  activity?: ActivityInterface;
-}
-
-declare namespace Express {
-  interface Request {
-    userId: string;
-    id:string;
-  }
-}
-
-
-interface ActivityInterface {
-  tag: string;
-  name: string;
-  createdAt: Date;
-  createdBy: { id: string; name: string };
-  description: string;
 }
 
 class ContractController {
-  public async create(req: Request, res: Response): Promise<Response> {
-    try {
-      const {name, deal, partner, bank, deadline, priority, status}: ContractInteface = req.body;
-      const { tag } = req.body;
-
-      
-      const createdBy = await  User.findOne(req.userId)
-      
-      // const createdBy = await idUser;
-
-      const contract = await Contract.create({  
-         name,
-         deal,
-         partner,
-         bank,
-         deadline,
-         priority,
-         status,
-         activity: [  {
-           tag: tag || 'HOT',
-           name: 'Negociação iniciada',
-           description: '',
-           createdAt: new Date(),
-           createdBy: { id: createdBy.id, name: createdBy.name },
-          },
-        ],
-      }).save();
-      if (!name) return res.status(400).json({ message: 'Invalid values for Contract' });
-      console.log(contract)
-      if (!contract) return res.status(400).json({ message: 'Cannot create Contract' });
-      
-
-      return res.status(201).json({ id: contract.id });
-
-    } catch (error) {
-      console.log(error)
-      return res.status(400).json({ error: 'Cannot create Contract, try again' });
-    }
-  }
-
-
-
   public async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      const contract = (await Contract.find(queryBuilder(req.query))).reverse();
-      // relations: ['company', '', '],
+      const contacts = (await Contract.find(queryBuilder(req.query))).reverse();
 
-      return res.status(200).json(contract);
+      return res.status(200).json(contacts);
     } catch (error) {
-      return res.status(400).json({ error: 'Cannot find Contracts, try again' });
+      return res.status(404).json({ error: 'Find contact failed, try again' });
     }
   }
 
@@ -100,44 +35,87 @@ class ContractController {
     try {
       const id = req.params.id;
 
-      const contract = await Contract.findOne(id, queryBuilder(req.query));
-      // relations: ['company', '', '],
+      const contact = await Contract.findOne(id, queryBuilder(req.query));
 
-      if (!contract) return res.status(404).json({ message: 'Contract does not exist' });
+      if (!contact) return res.status(400).json({ message: 'Contract does not exist' });
 
-      return res.status(200).json(contract);
+      return res.status(200).json(contact);
     } catch (error) {
-      return res.status(400).json({ error: 'Cannot find Contract, try again' });
+      return res.status(404).json({ error: 'Find contact failed, try again' });
+    }
+  }
+  public async create(req: Request, res: Response): Promise<Response> {
+    try {
+      const { name, partner, deal }: ContractInterface = req.body;
+
+      if (!name || !partner || !deal) return res.status(400).json({message: 'Invalid values for contacts'});
+
+      // const findContract = await Contract.findOne({ email });
+
+      // if (findContract) return res.status(400).json({ message: 'Contract already exists' });
+
+      const contact = await Contract.create({ name, deal, partner }).save();
+
+      if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
+
+      // Notificação para adm ao criar um contato
+      // const Origin = contact.state;
+      // confirm.sendMail({
+      //   to: "suporte.diegociara@gmail.com",
+      //   from: '"figio" <api@contato.com>',
+      //   subject: `Solicitação de ${name}`, // assunto do email
+      //   template: 'newRequest',
+      //   context: { name, email, phone, Origin },
+      // },
+      // (err) => {
+      //   if (err) console.log('Email not sent')
+
+      //   transport.close();
+      // });
+
+      // transport.sendMail({
+      //   to: email,
+      //   from: 'contato@figio.com.br',
+      //   subject: 'Solicitação de acesso ', // assunto do email
+      //   template: 'newContract',
+
+      //   context: { name },
+      // },
+      // (err) => {
+      //   if (err) console.log('Email not sent')
+
+      //   transport.close();
+      // });
+
+      return res.status(201).json({ id: contact.id });
+    } catch (error) {
+      console.error(error);
+      return res.status(404).json({ error: 'Create contact failed, try again' });
     }
   }
 
-
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, deal, partner, bank, priority, status, deadline }: ContractInteface = req.body;
       const id = req.params.id;
+      const { name, deal, partner }: ContractInterface = req.body;
 
-      if (!id) return res.status(400).json({ message: 'Please send Contract id' });
+      if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
-      const contract = await Contract.findOne(id);
+      const contact = await Contract.findOne(id);
 
-      if (!contract) return res.status(404).json({ message: 'Contract does not exist' });
+      if (!contact) return res.status(404).json({ message: 'Cannot find contact' });
 
-      const valuesToUpdate = {
-        deal: deal || contract.deal,
-        partner: partner || contract.partner,
-        bank: bank || contract.bank,
-        priority: priority || contract.priority,
-        deadline: deadline || contract.deadline,
-        status: status || contract.status,
-        name: name || contract.name,
+      const valuesToUpdate: ContractInterface = {
+        name: name || contact.name,
+        deal: deal || contact.deal,
+        partner: partner || contact.partner,
       };
 
       await Contract.update(id, { ...valuesToUpdate });
 
       return res.status(200).json();
     } catch (error) {
-      return res.status(400).json({ error: 'Cannot update Contract, try again' });
+      return res.status(404).json({ error: 'Update failed, try again' });
     }
   }
 
@@ -145,43 +123,17 @@ class ContractController {
     try {
       const id = req.params.id;
 
-      if (!id) return res.status(400).json({ message: 'Please send Contract id' });
+      if (!id) return res.status(404).json({ message: 'Please send Contract id' });
 
-      const contract = await Contract.findOne(id);
+      const contact = await Contract.findOne(id);
 
-      if (!contract) return res.status(404).json({ message: 'Contract does not exist' });
+      if (!contact) return res.status(404).json({ message: 'Contract does not exist' });
 
-      await Contract.softRemove(contract);
+      await Contract.softRemove(contact);
 
       return res.status(200).json();
     } catch (error) {
-      return res.status(400).json({ error: 'Cannot delete Contract, try again' });
-    }
-  }
-
-  public async insertActivity(req: Request, res: Response): Promise<Response> {
-    try {
-      const { name, description, tag, createdAt }: ActivityInterface = req.body;
-      const id = req.params.id;
-
-      if (!id) return res.status(400).json({ message: 'Please send Contract id' });
-
-      const createdBy = await User.findOne(req.userId);
-
-      if (!name || !description || !tag || !createdAt || !createdBy)
-        return res.status(400).json({ message: 'Invalid values to insert Activity' });
-
-      const contract = await Contract.findOne(id);
-
-      if (!contract) return res.status(404).json({ message: 'Contract does not exist' });
-
-      contract.activity.push({ name, description, createdAt, tag, createdBy: { id: createdBy.id, name: createdBy.name } });
-
-      await contract.save();
-
-      return res.status(201).json();
-    } catch (error) {
-      return res.status(400).json({ error: 'Cannot insert activity, try again' });
+      return res.status(404).json({ error: 'Cannot delete Contract, try again' });
     }
   }
 }

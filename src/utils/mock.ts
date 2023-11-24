@@ -15,7 +15,7 @@ import Partner from '@entities/Partner';
 import Contract from '@entities/Contract';
 
 const mocks = async (): Promise<void> => {
-  // inserindo dados iniciais no Banco de dados;
+  // inserindo dados iniciais no Banco de dados; 85161edd-a7e8-4189-b0b3-7fdac501fcf0 05881547-2b9f-4673-8526-52420634e71c
   try {
 
 

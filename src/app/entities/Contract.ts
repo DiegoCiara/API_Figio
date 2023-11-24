@@ -12,51 +12,21 @@ import {
 import Deal from './Deal';
 import Partner from './Partner';
 
-// interface ActivityInterface {}
-
 @Entity()
-class Contract extends BaseEntity {
+class Contracts extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
-  
-  @ManyToOne((type) => Deal ,{ nullable: true})
+  @ManyToOne((type) => Deal)
   @JoinColumn()
   deal: Deal;
 
-  @ManyToOne((type) => Partner ,{ nullable: true})
+  @ManyToOne((type) => Partner)
   @JoinColumn()
   partner: Partner;
 
-  @ManyToOne((type) => Partner ,{ nullable: true}) 
-  @JoinColumn()
-  bank: Partner;
-
-  // @Column({ type: 'bytea', nullable: true })
-  // rgFront: Buffer;
-
-  // @Column({ type: 'bytea', nullable: true })
-  // rgBack: Buffer;
-
-  @Column({ nullable: true, type: 'timestamp' })
-  deadline: Date;
-
-  @Column({ nullable: true })
-  priority: string;
-
-  @Column({ type: 'enum', enum: ['INPROGRESS', 'PENDING', 'LOST', 'WON'], default: 'PENDING' })
-  status: string;
-
-  @Column({ type: 'jsonb', nullable: true })
-  activity: Array<{
-    tag: string;
-    name: string;
-    description: string;
-    createdBy: { id: string; name: string };
-    createdAt: Date;
-  }>;
+  @Column()
+  name: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -68,4 +38,4 @@ class Contract extends BaseEntity {
   deletedAt: Date;
 }
 
-export default Contract;
+export default Contracts;
