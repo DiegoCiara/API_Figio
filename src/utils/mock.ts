@@ -1,5 +1,5 @@
 // mocks
-import { companies, contacts, partners, contracts, pipelines, deals, deals2, deals3, deals4, goal, automations , mailers, funnels, convenios } from './dataMock';
+import { companies, contacts, partners, contracts, pipelines, deals, deals2, deals3, deals4, goal, automations , mailers, funnels, convenios, product } from './dataMock';
 import Company from '@entities/Company';
 import Contact from '@entities/Contact';
 import Pipeline from '@entities/Pipeline';
@@ -12,13 +12,11 @@ import Funnels from '@entities/Funnel';
 import Goal from '@entities/Goal';
 import Convenio from '@entities/Convenio';
 import Partner from '@entities/Partner';
+import Product from '@entities/Product';
 import Contract from '@entities/Contract';
 
 const mocks = async (): Promise<void> => {
-  // inserindo dados iniciais no Banco de dados; 85161edd-a7e8-4189-b0b3-7fdac501fcf0 05881547-2b9f-4673-8526-52420634e71c
   try {
-
-
     if (!(await User.findOne({ email: 'admin@figio.com.br' }))) {
       const pass = await bcrypt.hash('die140401', 10);
       await User.create({ name: 'admin', email: 'admin@figio.com.br', role: 'ADMIN', passwordHash: pass, picture: 'https://figio.vercel.app/logo-a.png' }).save();
@@ -79,12 +77,21 @@ const mocks = async (): Promise<void> => {
       console.log('Convenios ok');
     }
 
+
     if (!(await Partner.findOne({ name: 'Figio' }))) {
       for (let i = 0; i < partners.length; i++) {
         await Partner.create({ ...partners[i] }).save();
         console.log(`Partner ${i + 1} criado`);
       }
       console.log('Partners ok');
+    }
+
+    if (!(await Product.findOne({ name: 'Margem' }))) {
+      for (let i = 0; i < product.length; i++) {
+        await Product.create({ ...product[i] }).save();
+        console.log(`Product ${i + 1} criado`);
+      }
+      console.log('Products ok');
     }
 
 

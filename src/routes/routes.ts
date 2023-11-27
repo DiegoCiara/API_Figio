@@ -12,6 +12,7 @@ import ContractRoutes from './contract.routes';
 import ContactRoutes from './contact.routes';
 import PipelineRoutes from './pipeline.routes';
 import FunnelRoutes from './funnel.routes';
+import ProductRoutes from './product.routes';
 import UserRoutes from './user.routes';
 
 const routes = Router();
@@ -30,6 +31,7 @@ routes.use('/mail', MailerRoutes);
 routes.use('/goal', GoalRoutes);
 routes.use('/funnel', FunnelRoutes);
 routes.use('/company', CompanyRoutes);
+routes.use('/product', ProductRoutes);
 routes.use('/convenio', ConvenioRoutes);
 routes.use('/contact', ContactRoutes);
 routes.use('/contract', ContractRoutes);

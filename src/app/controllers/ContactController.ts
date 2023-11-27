@@ -224,6 +224,7 @@ class ContactController {
   public async update(req: Request, res: Response): Promise<Response> {
     try {
       const id = req.params.id;
+      
       const { name, cpf, email, phone, cep, address, district, city, state, convenio, company }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });

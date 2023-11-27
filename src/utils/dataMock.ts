@@ -270,10 +270,6 @@ const partners = [
     name: 'Figio',
     type: 'Promotora',
   },
-  {
-    name: 'Bradesco',
-    type: 'Promotora',
-  },
 ];
 
 const contracts = [
@@ -299,6 +295,13 @@ const convenios = [
     name:'GOV FEDERAL'
   },
 ]
+
+
+const product = [
+  {
+    name: 'Margem'
+  },
+];
 
 const deals = [
   {
@@ -336,4 +339,4 @@ const deals4 = [
   },
 ];
 
-export { companies, contacts, users, convenios, funnels, contracts, partners, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };
+export { companies, contacts, product, users, convenios, funnels, contracts, partners, pipelines, goal, Relationship, SaaS, CrossUp, Product, Consulting, deals, automations, mailers,deals2, deals3, deals4 };

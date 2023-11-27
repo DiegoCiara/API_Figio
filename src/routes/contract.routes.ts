@@ -8,5 +8,6 @@ routes.get('/:id', ContractController.findById);
 routes.post('/', ContractController.create);
 routes.put('/:id', ContractController.update);
 routes.delete('/:id', ContractController.delete);
+routes.post('/:id/activity', ContractController.insertActivity);
 
 export default routes;

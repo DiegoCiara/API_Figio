@@ -24,8 +24,44 @@ export class createContract1631386637952 implements MigrationInterface {
             type: 'uuid',
           },
           {
+            //ref
+            name: 'contact',
+            type: 'uuid',
+          },
+          {
+            //ref
+            name: 'convenio',
+            type: 'uuid',
+          },
+          {
+            //ref
+            name: 'product',
+            type: 'uuid',
+          },
+          {
+            //ref
+            name: 'seller',
+            type: 'uuid',
+          },
+          {
             name: 'name',
             type: 'varchar',
+          },
+          {
+            name: 'bank',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'status',
+            type: 'enum',
+            enum: ['PAGO', 'CANCELADO', 'EM ANÁLISE', 'PENDENTE'],
+            default: `'PENDENTE'`,
+          },
+          {
+            name: 'activity',
+            type: 'jsonb',
+            isNullable: true,
           },
           {
             name: 'createdAt',
@@ -45,14 +81,6 @@ export class createContract1631386637952 implements MigrationInterface {
       })
     );
 
-    await queryRunner.createForeignKey(
-      'contracts',
-      new TableForeignKey({
-        columnNames: ['deal'],
-        referencedTableName: 'deals',
-        referencedColumnNames: ['id']
-      })
-    ); // Criando a foreign key para a coluna 'partner' se ela se relacionar com outra tabela
     await queryRunner.createForeignKey(
       'contracts',
       new TableForeignKey({
