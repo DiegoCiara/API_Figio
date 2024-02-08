@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm';
 import config from '../../ormconfig';
-import mocks from '../utils/mock';
+import mocks from '@utils/mocks';
 
 async function connect() {
   await createConnection(config);

@@ -273,9 +273,6 @@ const partners = [
 ];
 
 const contracts = [
-  {
-    name: 'Contrato Consignado',
-  },
 ];
 
 const convenios = [
