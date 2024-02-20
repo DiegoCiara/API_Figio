@@ -19,6 +19,7 @@ interface DealInteface {
   contact?: Contact;
   name?: string;
   deadline?: Date;
+  term?: string;
   priority?: string;
   value?: number;
   status?: string;
@@ -45,7 +46,7 @@ interface ActivityInterface {
 class DealController {
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const {name, deadline, priority, value, status, company, contact, pipeline, user}: DealInteface = req.body;
+      const {name, deadline, priority, term, value, status, company, contact, pipeline, user}: DealInteface = req.body;
       const { tag } = req.body;
 
       
@@ -61,6 +62,7 @@ class DealController {
          pipeline,
          deadline,
          priority,
+         term,
          value,
          status,
          activity: [  {
@@ -116,7 +118,7 @@ class DealController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, priority, value, status, company, contact, pipeline, deadline }: DealInteface = req.body;
+      const { name, priority, value, status, company, contact, pipeline, term, deadline }: DealInteface = req.body;
       const id = req.params.id;
 
       if (!id) return res.status(400).json({ message: 'Please send Deal id' });
@@ -130,6 +132,7 @@ class DealController {
         contact: contact || deal.contact,
         pipeline: pipeline || deal.pipeline,
         priority: priority || deal.priority,
+        term: term || deal.term,
         deadline: deadline || deal.deadline,
         status: status || deal.status,
         value: value || deal.value,

@@ -13,7 +13,7 @@ import { companies, deals } from '@utils/dataMock';
 import queryBuilder from '@utils/queryBuilder';
 import { Request, Response } from 'express';
 import { pipeline } from 'stream';
-
+ 
 interface ContactInterface {
   name?: string;
   cpf?: string;
@@ -24,6 +24,23 @@ interface ContactInterface {
   district?: string;
   city?: string;
   state?: string;
+  rg: string;
+  expeditionDate: string;
+  emissorOrg: string;
+  naturality: string;
+  bornDate: string;
+  age: string;
+  gender: string;
+  motherName: string;
+  motherCpf: string;
+  fatherName: string;
+  benefitType: string;
+  benefitValue: string;
+  benefitNumber: string;
+  bank: string;
+  agency: string;
+  account: string;
+  accountType: string;
   convenio?: Convenio;
   company?: Company;
 }
@@ -54,7 +71,36 @@ class ContactController {
   }
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, cpf, email, phone, cep, address, district, city, state, company, convenio }: ContactInterface = req.body;
+      const { 
+          name,
+          cpf,
+          rg,
+          expeditionDate,
+          emissorOrg,
+          naturality,
+          bornDate,
+          age,
+          gender,
+          motherName,
+          motherCpf,
+          fatherName,
+          benefitType,
+          benefitValue,
+          benefitNumber,
+          bank,
+          agency,
+          account,
+          accountType,
+          email,
+          phone,
+          cep,
+          address,
+          district,
+          city,
+          state,
+          company,
+          convenio 
+        }: ContactInterface = req.body;
 
       if (!name || !company || !convenio) return res.status(400).json({message: 'Invalid values for contacts'});
 
@@ -62,7 +108,36 @@ class ContactController {
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
-      const contact = await Contact.create({ name, cpf, email, phone, cep, address, district, city, state, convenio, company }).save();
+      const contact = await Contact.create({ 
+        name,
+        cpf,
+        rg,
+        expeditionDate,
+        emissorOrg,
+        naturality,
+        bornDate,
+        age,
+        gender,
+        motherName,
+        motherCpf,
+        fatherName,
+        benefitType,
+        benefitValue,
+        benefitNumber,
+        bank,
+        agency,
+        account,
+        accountType,
+        email,
+        phone,
+        cep,
+        address,
+        district,
+        city,
+        state,
+        convenio,
+        company 
+      }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
@@ -99,7 +174,7 @@ class ContactController {
             
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@figio.com.br',
+            //   from: 'contato@softspace.com.br',
             //   subject: Subject,
             //   template: 'ProfessionalMailer',
             //   context: {Responsible, Photo, Title, Text, Contact, Color, Client },
@@ -127,7 +202,7 @@ class ContactController {
 
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@figio.com.br',
+            //   from: 'contato@softspace.com.br',
             //   subject: Subject,
             //   template: 'PersonalMailer',
             //   context: {Responsible, Photo, Title, Text, Color, Contact, Client },
@@ -189,7 +264,7 @@ class ContactController {
       // const Origin = contact.state;
       // confirm.sendMail({
       //   to: "suporte.diegociara@gmail.com",
-      //   from: '"figio" <api@contato.com>',
+      //   from: '"softspace" <api@contato.com>',
       //   subject: `Solicitação de ${name}`, // assunto do email
       //   template: 'newRequest',
       //   context: { name, email, phone, Origin },
@@ -202,7 +277,7 @@ class ContactController {
 
       // transport.sendMail({
       //   to: email,
-      //   from: 'contato@figio.com.br',
+      //   from: 'contato@softspace.com.br',
       //   subject: 'Solicitação de acesso ', // assunto do email
       //   template: 'newContact',
 
@@ -225,7 +300,36 @@ class ContactController {
     try {
       const id = req.params.id;
       
-      const { name, cpf, email, phone, cep, address, district, city, state, convenio, company }: ContactInterface = req.body;
+      const { 
+        name,
+        cpf,
+        rg,
+        expeditionDate,
+        emissorOrg,
+        naturality,
+        bornDate,
+        age,
+        gender,
+        motherName,
+        motherCpf,
+        fatherName,
+        benefitType,
+        benefitValue,
+        benefitNumber,
+        bank,
+        agency,
+        account,
+        accountType,
+        email,
+        phone,
+        cep,
+        address,
+        district,
+        city,
+        state,
+        convenio,
+        company 
+       }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
@@ -237,6 +341,23 @@ class ContactController {
         name: name || contact.name,
         email: email || contact.email,
         cpf: cpf || contact.cpf,
+        rg: rg || contact.rg,
+        expeditionDate: expeditionDate || contact.expeditionDate,
+        emissorOrg: emissorOrg || contact.emissorOrg,
+        naturality: naturality || contact.naturality,
+        bornDate: bornDate || contact.bornDate,
+        age: age || contact.age,
+        gender: gender || contact.gender,
+        motherName: motherName || contact.motherName,
+        motherCpf: motherCpf || contact.motherCpf,
+        fatherName: fatherName || contact.fatherName,
+        benefitType: benefitType || contact.benefitType,
+        benefitValue: benefitValue || contact.benefitValue,
+        benefitNumber: benefitNumber || contact.benefitNumber,
+        bank: bank || contact.bank,
+        agency: agency || contact.agency,
+        account: account || contact.account,
+        accountType: accountType || contact.accountType,
         convenio: convenio || contact.convenio,
         phone: phone || contact.phone,
         cep: cep || contact.cep,

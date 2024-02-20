@@ -15,9 +15,15 @@ import Contract from '@entities/Contract';
 
 export const mocks = async (): Promise<void> => {
   try {
-    if (!(await User.findOne({ email: 'admin@figio.com.br' }))) {
+    if (!(await User.findOne({ email: 'admin@softspace.com.br' }))) {
       const pass = await bcrypt.hash('die140401', 10);
-      await User.create({ name: 'admin', email: 'admin@figio.com.br', role: 'ADMIN', passwordHash: pass, picture: 'https://figio.vercel.app/logo-a.png' }).save();
+      await User.create({ 
+        name: 'admin', 
+        email: 'admin@softspace.com.br', 
+        role: 'ADMIN', 
+        passwordHash: pass, 
+        picture: 'https://softspace.vercel.app/logo-a.png' 
+      }).save();
       console.log('users ok');
     }
 
@@ -31,7 +37,7 @@ export const mocks = async (): Promise<void> => {
 
     const funnelsFind = await Funnels.find();
 
-    if (!(await Pipeline.findOne({ name: 'Lead' })) && funnelsFind.length) {
+    if (!(await Pipeline.findOne({ name: 'Não iniciado' })) && funnelsFind.length) {
       for (let i = 0; i < pipelines.length; i++) {
         await Pipeline.create({ ...pipelines[i], funnel: funnelsFind[0] }).save();
         console.log(`Pipeline ${i + 1} criado`);
@@ -72,7 +78,7 @@ export const mocks = async (): Promise<void> => {
     }
 
 
-    if (!(await Partner.findOne({ name: 'Figio' }))) {
+    if (!(await Partner.findOne({ name: 'Softspace' }))) {
       for (let i = 0; i < partners.length; i++) {
         await Partner.create({ ...partners[i] }).save();
         console.log(`Partner ${i + 1} criado`);
@@ -111,7 +117,7 @@ export const mocks = async (): Promise<void> => {
     }
 
 
-    // if (!(await User.findOne({ email: 'suporte@figio.com.br' }))) {
+    // if (!(await User.findOne({ email: 'suporte@softspace.com.br' }))) {
     //   users.map(async (admin) => {
     //     const passwordHash = await bcrypt.hash(admin.password, 10);
     //     await User.create({ ...admin, passwordHash }).save();
@@ -120,7 +126,7 @@ export const mocks = async (): Promise<void> => {
     // }
     const companiesFind = await Company.find();
 
-    if (!(await Contact.findOne({ email: 'teste@figio.com.br' })) && companiesFind.length >= 5) {
+    if (!(await Contact.findOne({ email: 'teste@softspace.com.br' })) && companiesFind.length >= 5) {
       for (let index = 0; index < contacts.length; index++) {
         const contact = contacts[index];
         await Contact.create({ ...contact, company: companiesFind[index] }).save();
@@ -297,10 +303,10 @@ export const mocks = async (): Promise<void> => {
           ]
         }).save();
         console.log(`Contract ${contract.name} criado`);
+        console.log('Contracts ok');
       }
 
 
-      console.log('Contracts ok');
     }
 
     const dealsFind = await Deal.find();

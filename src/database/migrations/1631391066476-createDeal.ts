@@ -43,6 +43,11 @@ export class createDeal1631391066476 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'term',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'priority',
             type: 'varchar',
             isNullable: true,

@@ -26,7 +26,7 @@ class Contacts extends BaseEntity {
   convenio: Convenio;
 
   @Column()
-  name: string;
+  name: string; 
 
   @Column()
   email: string;
@@ -37,7 +37,52 @@ class Contacts extends BaseEntity {
   @Column({ nullable: true })
   phone: string;
 
+// New data
 
+  // RG
+  @Column({ nullable: true })
+  rg: string;
+  @Column({ nullable: true })
+  expeditionDate: string;
+  @Column({ nullable: true })
+  emissorOrg: string;
+  @Column({ nullable: true })
+  naturality: string;
+  @Column({ nullable: true })
+  bornDate: string;
+  @Column({ nullable: true })
+  age: string;
+  @Column({ nullable: true })
+  gender: string;
+  @Column({ nullable: true })
+  motherName: string;
+  @Column({ nullable: true })
+  motherCpf: string;
+  @Column({ nullable: true })
+  fatherName: string;
+  // 
+
+  //Beneficio
+
+  @Column({ nullable: true })
+  benefitType: string;
+  @Column({ nullable: true })
+  benefitValue: string;
+  @Column({ nullable: true })
+  benefitNumber: string;
+  // 
+
+  // Account
+  @Column({ nullable: true })
+  bank: string;
+  @Column({ nullable: true })
+  agency: string;
+  @Column({ nullable: true })
+  account: string;
+  @Column({ nullable: true })
+  accountType: string;
+
+  // 
 
 
   @Column({ nullable: true })

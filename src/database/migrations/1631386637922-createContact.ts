@@ -35,12 +35,116 @@ export class createContact1631386637922 implements MigrationInterface {
             name: 'cpf',
             type: 'varchar',
             isNullable: true,
-          },
+          }, 
           {
             name: 'phone',
             type: 'varchar',
             isNullable: true,
           },
+
+
+          // RG
+
+          {
+            name: 'rg',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'expeditionDate',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'emissorOrg',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'naturality',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'bornDate',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'age',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'gender',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'motherName',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'motherCpf',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'fatherName',
+            type: 'varchar',
+            isNullable: true,
+          },
+
+
+          // 
+
+
+
+          // Beneficio
+
+          {
+            name: 'benefitType',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'benefitValue',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'benefitNumber',
+            type: 'varchar',
+            isNullable: true,
+          },
+
+          // 
+
+          // Account
+
+          {
+            name: 'bank',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'agency',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'account',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'accountType',
+            type: 'varchar',
+            isNullable: true,
+          },
+
+
           {
             name: 'cep',
             type: 'varchar',

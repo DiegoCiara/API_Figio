@@ -61,8 +61,8 @@ class UserController {
 
       transport.sendMail({
         to: email,
-        from: 'contato@figio.com.br',
-        subject: 'Figio Plataforma' , // assunto do email
+        from: 'contato@softspace.com.br',
+        subject: 'Softspace Plataforma' , // assunto do email
         template: 'newUser',
 
         context: {client, name, password , email },

@@ -58,7 +58,7 @@ const goal = [
 const contacts = [
   {
     name: 'Exemplo de Contato',
-    email: 'teste@figio.com.br',
+    email: 'teste@softspace.com.br',
     phone: '12987979532',
     city: 'São Paulo',
     state: 'SP',
@@ -259,7 +259,7 @@ const Consulting =[
 const users = [
   {
     name: 'Suporte Técnico',
-    email: 'suporte@figio.com.br',
+    email: 'suporte@softspace.com.br',
     role: 'ADMIN',
     password: 'die140401',
   },
@@ -267,7 +267,7 @@ const users = [
 
 const partners = [
   {
-    name: 'Figio',
+    name: 'Softspace',
     type: 'Promotora',
   },
 ];
