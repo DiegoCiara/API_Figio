@@ -83,7 +83,7 @@ class ContractController {
 
       const createdBy = await  User.findOne(req.userId)
 
-      const dealId = await Deal.findOne(deal, { relations: ['company', 'contact', 'pipeline'] });
+      const dealId = await Deal.findOne(deal, { relations: ['company', 'contact', 'pipeline', 'product'] });
 
       const findContact = await Contact.findOne(dealId.contact.id, { relations: ['company', 'convenio'] })
 
@@ -93,7 +93,7 @@ class ContractController {
         contact: dealId?.contact,
         convenio: findContact.convenio,
         partner,
-        product,
+        product: dealId?.product,
         status,
         bank,
         seller: createdBy,

@@ -11,12 +11,14 @@ import Mailers from '@entities/Mailer';
 import { mailers } from '@utils/dataMock';
 import Automations from '@entities/Automation';
 import { NameCompany } from '@src/client';
+import Product from '@entities/Product';
 
 interface DealInteface {
   id?: string;
   pipeline?: Pipeline;
   company?: Company;
   contact?: Contact;
+  product?: Product;
   name?: string;
   deadline?: Date;
   term?: string;
@@ -46,7 +48,7 @@ interface ActivityInterface {
 class DealController {
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const {name, deadline, priority, term, value, status, company, contact, pipeline, user}: DealInteface = req.body;
+      const {name, deadline, priority, term, value, status, company, product, contact, pipeline, user}: DealInteface = req.body;
       const { tag } = req.body;
 
       
@@ -56,7 +58,8 @@ class DealController {
 
       const deal = await Deal.create({ 
          name,
-         company,
+         company, 
+         product,
          contact,
          user: createdBy,
          pipeline,
@@ -118,7 +121,7 @@ class DealController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, priority, value, status, company, contact, pipeline, term, deadline }: DealInteface = req.body;
+      const { name, priority, value, status, company, product, contact, pipeline, term, deadline }: DealInteface = req.body;
       const id = req.params.id;
 
       if (!id) return res.status(400).json({ message: 'Please send Deal id' });
@@ -128,9 +131,10 @@ class DealController {
       if (!deal) return res.status(404).json({ message: 'Deal does not exist' });
 
       const valuesToUpdate = {
-        company: company || deal.company,
+        company: company || deal.company, 
         contact: contact || deal.contact,
         pipeline: pipeline || deal.pipeline,
+        product: product || deal.product,
         priority: priority || deal.priority,
         term: term || deal.term,
         deadline: deadline || deal.deadline,
