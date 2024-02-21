@@ -6,6 +6,7 @@ import Convenio from '@entities/Convenio';
 import Deals from '@entities/Deal';
 import Mailers from '@entities/Mailer';
 import Pipelines from '@entities/Pipeline';
+import Product from '@entities/Product';
 import Users from '@entities/User';
 import confirm from '@src/modules/confirm';
 import transport from '@src/modules/mailer';
@@ -44,6 +45,15 @@ interface ContactInterface {
   convenio?: Convenio;
   company?: Company;
   user?: string;
+}
+
+ 
+interface ContactLandingPage {
+  name?: string;
+  cpf?: string;
+  phone?: string;
+  product?: Product;
+  company?: Company;
 }
 
 class ContactController {
@@ -261,6 +271,115 @@ class ContactController {
             }
         }
       }
+      // Notificação para adm ao criar um contato
+      // const Origin = contact.state;
+      // confirm.sendMail({
+      //   to: "suporte.diegociara@gmail.com",
+      //   from: '"wavecrm" <api@contato.com>',
+      //   subject: `Solicitação de ${name}`, // assunto do email
+      //   template: 'newRequest',
+      //   context: { name, email, phone, Origin },
+      // },
+      // (err) => {
+      //   if (err) console.log('Email not sent')
+
+      //   transport.close();
+      // });
+
+      // transport.sendMail({
+      //   to: email,
+      //   from: 'contato@wavecrm.com.br',
+      //   subject: 'Solicitação de acesso ', // assunto do email
+      //   template: 'newContact',
+
+      //   context: { name },
+      // },
+      // (err) => {
+      //   if (err) console.log('Email not sent')
+
+      //   transport.close();
+      // });
+
+      return res.status(201).json({ id: contact.id });
+    } catch (error) {
+      console.error(error);
+      return res.status(404).json({ error: 'Create contact failed, try again' });
+    }
+  }
+
+
+  public async createLandingPage(req: Request, res: Response): Promise<Response> {
+    try {
+      const { 
+          name,
+          cpf,
+          phone,
+          company,
+          product,
+        }: ContactLandingPage = req.body;
+
+      if (!name || !company || !product ) return res.status(400).json({message: 'Invalid values for contacts'});
+
+      const findUser = await Users.findOne({ email: 'admin@wavecrm.com.br' });
+      const findConvenio = await Convenio.findOne(product.convenio);
+
+      // if (findContact) return res.status(400).json({ message: 'Contact already exists' }); 
+
+      const contact = await Contact.create({ 
+        name,
+        cpf,
+        phone,
+        convenio: findConvenio,
+        company
+      }).save();
+
+      if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
+
+      try{  
+        const companiesFind = await Company.find();
+        const contactFind = await Contact.find();
+        const pipelineFind = await Pipelines.findOne({id: company.id }); //Inserir o id do pipeline de destino da negociação quando finalizar a insersão da tabela no db
+        const convenioDeal = await Convenio.findOne(contact.convenio);
+
+        console.log(pipelineFind)
+  
+        if (!(await Deals.findOne({ contact: contact })) && contactFind.length >= 1 && companiesFind.length >= 1) {
+          for (let index = 0; index < deals.length; index++) {
+            const deal = deals[index];
+            await Deals.create({
+              ...deal,
+              name: 'Negociação ' + product.name,
+              pipeline: pipelineFind,
+              company: contact.company,
+              user: findUser,
+              createdAt: new Date(),
+              product: product,
+              contact: contact,
+              activity: [
+                {
+                  name: 'Iniciado por Landing Page',
+                  description: '',
+                  createdAt: new Date(),
+                  createdBy: { 
+                    id: findUser.id, 
+                    name: findUser.name 
+                  },
+                  tag: 'HOT',
+                },
+              ],
+              value: 0,
+              status: 'INPROGRESS',
+            }).save();
+          }
+        }
+  
+      
+      } catch (error) {
+        console.log(error)
+        return res.status(400).json({ error: 'Cannot insert activity, try again' });
+      }
+
+      
       // Notificação para adm ao criar um contato
       // const Origin = contact.state;
       // confirm.sendMail({
