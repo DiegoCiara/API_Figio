@@ -104,7 +104,7 @@ class ContactController {
           user,
         }: ContactInterface = req.body;
 
-      if (!name || !company || !convenio || !user) return res.status(400).json({message: 'Invalid values for contacts'});
+      if (!name || !company || !convenio ) return res.status(400).json({message: 'Invalid values for contacts'});
 
       const findUser = await Users.findOne({ id: user });
 
@@ -373,6 +373,7 @@ class ContactController {
 
       return res.status(200).json();
     } catch (error) {
+      console.log(error)
       return res.status(404).json({ error: 'Update failed, try again' });
     }
   }
