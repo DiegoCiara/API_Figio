@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: .
-        target: /home/ubuntu/API_Softspace
+        target: /home/ubuntu/API_Wave CRM
 
     - name: SSH para o servidor EC2
       uses: appleboy/ssh-action@master
@@ -30,13 +30,13 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
 
-          cd /home/ubuntu/API_Softspace
-          sudo cp /home/ubuntu/cert.pem /home/ubuntu/API_Softspace/src/
-          sudo cp /home/ubuntu/key.pem /home/ubuntu/API_Softspace/src/
-          pm2 delete API_Softspace
+          cd /home/ubuntu/API_Wave CRM
+          sudo cp /home/ubuntu/cert.pem /home/ubuntu/API_Wave CRM/src/
+          sudo cp /home/ubuntu/key.pem /home/ubuntu/API_Wave CRM/src/
+          pm2 delete API_Wave CRM
           yarn
           sudo docker-compose up -d
           sudo ufw allow 3333/tcp
           sudo ufw allow 3333/udp
           yarn typeorm migration:run
-          pm2 start "sudo yarn dev" --name API_Softspace
+          pm2 start "sudo yarn dev" --name API_Wave CRM

@@ -43,6 +43,7 @@ interface ContactInterface {
   accountType: string;
   convenio?: Convenio;
   company?: Company;
+  user?: string;
 }
 
 class ContactController {
@@ -99,12 +100,13 @@ class ContactController {
           city,
           state,
           company,
-          convenio 
+          convenio,
+          user,
         }: ContactInterface = req.body;
 
-      if (!name || !company || !convenio) return res.status(400).json({message: 'Invalid values for contacts'});
+      if (!name || !company || !convenio || !user) return res.status(400).json({message: 'Invalid values for contacts'});
 
-      // const findContact = await Contact.findOne({ email });
+      const findUser = await Users.findOne({ id: user });
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
@@ -174,7 +176,7 @@ class ContactController {
             
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@softspace.com.br',
+            //   from: 'contato@wavecrm.com.br',
             //   subject: Subject,
             //   template: 'ProfessionalMailer',
             //   context: {Responsible, Photo, Title, Text, Contact, Color, Client },
@@ -202,7 +204,7 @@ class ContactController {
 
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@softspace.com.br',
+            //   from: 'contato@wavecrm.com.br',
             //   subject: Subject,
             //   template: 'PersonalMailer',
             //   context: {Responsible, Photo, Title, Text, Color, Contact, Client },
@@ -218,7 +220,6 @@ class ContactController {
            else if ( CreateNegociation ){
             try{  
               const tasksInsert = automationData.output;
-              const createdUser = await Users.findOne(req.userId);
               const companiesFind = await Company.find();
               const contactFind = await Contact.find();
               const pipelineFind = await Pipelines.findOne({id: automationData.output});
@@ -234,7 +235,7 @@ class ContactController {
                     name: 'Negociação ' + convenioDeal.name,
                     pipeline: pipelineFind,
                     company: contact.company,
-                    user: createdUser,
+                    user: findUser,
                     createdAt: new Date(),
                     contact: contact,
                     activity: [
@@ -242,7 +243,7 @@ class ContactController {
                         name: 'Iniciado por automação',
                         description: '',
                         createdAt: new Date(),
-                        createdBy: { id: createdUser.id, name: createdUser.name },
+                        createdBy: { id: findUser.id, name: findUser.name },
                         tag: 'HOT',
                       },
                     ],
@@ -264,7 +265,7 @@ class ContactController {
       // const Origin = contact.state;
       // confirm.sendMail({
       //   to: "suporte.diegociara@gmail.com",
-      //   from: '"softspace" <api@contato.com>',
+      //   from: '"wavecrm" <api@contato.com>',
       //   subject: `Solicitação de ${name}`, // assunto do email
       //   template: 'newRequest',
       //   context: { name, email, phone, Origin },
@@ -277,7 +278,7 @@ class ContactController {
 
       // transport.sendMail({
       //   to: email,
-      //   from: 'contato@softspace.com.br',
+      //   from: 'contato@wavecrm.com.br',
       //   subject: 'Solicitação de acesso ', // assunto do email
       //   template: 'newContact',
 

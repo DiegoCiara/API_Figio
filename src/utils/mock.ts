@@ -15,14 +15,14 @@ import Contract from '@entities/Contract';
 
 export const mocks = async (): Promise<void> => {
   try {
-    if (!(await User.findOne({ email: 'admin@softspace.com.br' }))) {
+    if (!(await User.findOne({ email: 'admin@wavecrm.com.br' }))) {
       const pass = await bcrypt.hash('die140401', 10);
       await User.create({ 
         name: 'admin', 
-        email: 'admin@softspace.com.br', 
+        email: 'admin@wavecrm.com.br', 
         role: 'ADMIN', 
         passwordHash: pass, 
-        picture: 'https://softspace.vercel.app/logo-a.png' 
+        picture: 'https://wavecrm.vercel.app/logo-a.png' 
       }).save();
       console.log('users ok');
     }
@@ -78,7 +78,7 @@ export const mocks = async (): Promise<void> => {
     }
 
 
-    if (!(await Partner.findOne({ name: 'Softspace' }))) {
+    if (!(await Partner.findOne({ name: 'Wave CRM' }))) {
       for (let i = 0; i < partners.length; i++) {
         await Partner.create({ ...partners[i] }).save();
         console.log(`Partner ${i + 1} criado`);
@@ -117,7 +117,7 @@ export const mocks = async (): Promise<void> => {
     }
 
 
-    // if (!(await User.findOne({ email: 'suporte@softspace.com.br' }))) {
+    // if (!(await User.findOne({ email: 'suporte@wavecrm.com.br' }))) {
     //   users.map(async (admin) => {
     //     const passwordHash = await bcrypt.hash(admin.password, 10);
     //     await User.create({ ...admin, passwordHash }).save();
@@ -126,7 +126,7 @@ export const mocks = async (): Promise<void> => {
     // }
     const companiesFind = await Company.find();
 
-    if (!(await Contact.findOne({ email: 'teste@softspace.com.br' })) && companiesFind.length >= 5) {
+    if (!(await Contact.findOne({ email: 'teste@wavecrm.com.br' })) && companiesFind.length >= 5) {
       for (let index = 0; index < contacts.length; index++) {
         const contact = contacts[index];
         await Contact.create({ ...contact, company: companiesFind[index] }).save();

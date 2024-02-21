@@ -58,7 +58,7 @@ const goal = [
 const contacts = [
   {
     name: 'Exemplo de Contato',
-    email: 'teste@softspace.com.br',
+    email: 'teste@wavecrm.com.br',
     phone: '12987979532',
     city: 'São Paulo',
     state: 'SP',
@@ -259,7 +259,7 @@ const Consulting =[
 const users = [
   {
     name: 'Suporte Técnico',
-    email: 'suporte@softspace.com.br',
+    email: 'suporte@wavecrm.com.br',
     role: 'ADMIN',
     password: 'die140401',
   },
@@ -267,7 +267,7 @@ const users = [
 
 const partners = [
   {
-    name: 'Softspace',
+    name: 'Wave CRM',
     type: 'Promotora',
   },
 ];

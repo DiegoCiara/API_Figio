@@ -66,7 +66,7 @@ class AuthController {
       transport.sendMail(
         {
           to: email,
-          from: 'contato@softspace.com.br',
+          from: 'contato@wavecrm.com.br',
           subject: 'Recuperação de senha', // assunto do email
           // html: { path: './src/resources/mail/forgotPassword.html' },
           template: 'forgotPassword',
