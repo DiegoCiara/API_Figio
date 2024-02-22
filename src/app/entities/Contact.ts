@@ -28,7 +28,7 @@ class Contacts extends BaseEntity {
   @Column()
   name: string; 
 
-  @Column()
+  @Column({ nullable: true })
   email: string;
 
   @Column({ nullable: true })

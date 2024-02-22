@@ -1,4 +1,5 @@
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import Pipeline from "./Pipeline";
 
 @Entity()
 class Companies extends BaseEntity {
@@ -22,6 +23,10 @@ class Companies extends BaseEntity {
 
   @Column({ nullable: true })
   picture: string;
+
+  @ManyToOne((type) => Pipeline)
+  @JoinColumn()
+  pipeline: Pipeline;
 
   @CreateDateColumn()
   createdAt: Date;

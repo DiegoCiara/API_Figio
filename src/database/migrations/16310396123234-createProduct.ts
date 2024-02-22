@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
 export class createProduct16310396123234 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -61,6 +61,14 @@ export class createProduct16310396123234 implements MigrationInterface {
             type: 'timestamp',
           },
         ],
+      })
+    ); 
+    await queryRunner.createForeignKey(
+      'products',
+      new TableForeignKey({
+        columnNames: ['convenio'],
+        referencedTableName: 'convenios', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
+        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
       })
     );
   }

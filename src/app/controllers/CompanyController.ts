@@ -1,4 +1,5 @@
 import Company from '@entities/Company';
+import Pipelines from '@entities/Pipeline';
 import queryBuilder from '@utils/queryBuilder';
 import { Request, Response } from 'express';
 
@@ -9,6 +10,8 @@ interface CompanyInterface {
   state?: string;
   city?: string;
   site?: string;
+  pipeline?: Pipelines;
+  pipelineId?: string;
   picture?: string;
 }
 
@@ -39,11 +42,12 @@ class CompanyController {
 
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, country, state, city, site, picture }: CompanyInterface = req.body;
+      const { name, country, state, city, site, picture, pipelineId }: CompanyInterface = req.body;
 
+      const findPipeline = await Pipelines.findOne({ id: pipelineId })
       if (!name) return res.status(400).json({ message: 'Invalid company name' });
 
-      const company = await Company.create({ name, country, state, city, site, picture }).save();
+      const company = await Company.create({ name, country, state, city, site, picture, pipeline: findPipeline }).save();
 
       if (!company) return res.status(400).json({ message: 'Cannot create company' });
 
@@ -55,8 +59,11 @@ class CompanyController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, country, state, city, site, picture }: CompanyInterface = req.body;
+      const { name, country, state, city, site, picture, pipelineId }: CompanyInterface = req.body;
       const id = req.params.id;
+
+
+      const findPipeline = await Pipelines.findOne({ id: pipelineId })
 
       const company = await Company.findOne(id);
 
@@ -69,6 +76,7 @@ class CompanyController {
         city: city || company.city,
         site: site || company.site,
         picture: picture || company.picture,
+        pipeline: findPipeline|| company.pipeline,
       };
 
       await Company.update(id, { ...valuesToUpdate });

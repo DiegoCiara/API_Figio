@@ -30,6 +30,7 @@ export class createContact1631386637922 implements MigrationInterface {
           {
             name: 'email',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'cpf',

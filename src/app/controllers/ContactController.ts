@@ -52,8 +52,9 @@ interface ContactLandingPage {
   name?: string;
   cpf?: string;
   phone?: string;
-  product?: Product;
-  company?: Company;
+  product?: string;
+  convenio?: string;
+  company?: string;
 }
 
 class ContactController {
@@ -315,45 +316,51 @@ class ContactController {
           cpf,
           phone,
           company,
+          convenio,
           product,
         }: ContactLandingPage = req.body;
+
+      console.log({
+        name,
+        cpf,
+        phone,
+        company,
+        convenio,
+        product,
+      })
 
       if (!name || !company || !product ) return res.status(400).json({message: 'Invalid values for contacts'});
 
       const findUser = await Users.findOne({ email: 'admin@wavecrm.com.br' });
-      const findConvenio = await Convenio.findOne(product.convenio);
+      const findCompany = await Companies.findOne({ id: company });
+      console.log('FINDCOMPANY ====> ', await Companies.findOne({ id: company }))
+      const findProduct = await Product.findOne({ id: product });
+      const findConvenio = await Convenio.findOne({ id : convenio });
+      const pipelineFind = await Pipelines.findOne( findCompany?.pipeline ); 
 
-      // if (findContact) return res.status(400).json({ message: 'Contact already exists' }); 
-
+      console.log(pipelineFind)
       const contact = await Contact.create({ 
         name,
         cpf,
-        phone,
+        phone, 
         convenio: findConvenio,
-        company
+        company: findCompany,
       }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
       try{  
-        const companiesFind = await Company.find();
-        const contactFind = await Contact.find();
-        const pipelineFind = await Pipelines.findOne({id: company.id }); //Inserir o id do pipeline de destino da negociação quando finalizar a insersão da tabela no db
-        const convenioDeal = await Convenio.findOne(contact.convenio);
-
-        console.log(pipelineFind)
-  
-        if (!(await Deals.findOne({ contact: contact })) && contactFind.length >= 1 && companiesFind.length >= 1) {
+        if (!(await Deals.findOne({ contact: contact }))) {
           for (let index = 0; index < deals.length; index++) {
             const deal = deals[index];
             await Deals.create({
               ...deal,
-              name: 'Negociação ' + product.name,
+              name:`Negociação ${contact.name}`,
+              company: findCompany,
               pipeline: pipelineFind,
-              company: contact.company,
               user: findUser,
               createdAt: new Date(),
-              product: product,
+              product: findProduct,
               contact: contact,
               activity: [
                 {
