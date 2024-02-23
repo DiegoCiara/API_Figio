@@ -108,6 +108,14 @@ export class createDeal1631391066476 implements MigrationInterface {
         referencedColumnNames: ['id']
       })
     );
+    await queryRunner.createForeignKey(
+      'deals',
+      new TableForeignKey({
+        columnNames: ['user'],
+        referencedTableName: 'users',
+        referencedColumnNames: ['id']
+      })
+    );
 
     await queryRunner.createForeignKey(
       'deals',

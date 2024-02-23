@@ -53,6 +53,11 @@ export class createContract1631386637952 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'ade',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'status',
             type: 'enum',
             enum: ['PAGO', 'CANCELADO', 'EM ANÁLISE', 'PENDENTE'],

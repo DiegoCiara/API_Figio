@@ -51,10 +51,13 @@ class DealController {
       const {name, deadline, priority, term, value, status, company, product, contact, pipeline, user }: DealInteface = req.body;
       const { tag } = req.body;
 
+      const id = req.params.id
       
       
-      const findUser = await User.findOne({ id: user });
+      const findUser = await User.findOne(id);
       // const createdBy = await idUser;
+
+      console.log('UUUUSEEEEER ======>' ,findUser)
 
       const deal = await Deal.create({ 
          name,
@@ -77,7 +80,7 @@ class DealController {
           },
         ],
       }).save();
-      if (!name || !company || !contact || !pipeline || !user ) return res.status(400).json({ message: 'Invalid values for Deal' });
+      if (!name || !company || !contact || !pipeline  ) return res.status(400).json({ message: 'Invalid values for Deal' });
       console.log(deal)
       if (!deal) return res.status(400).json({ message: 'Cannot create Deal' });
       

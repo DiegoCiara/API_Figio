@@ -27,6 +27,7 @@ interface ContractInterface {
   convenio?: Convenio;
   bank?: string;
   status?: string;
+  ade?: string;
   seller?: User;
   activity?: ActivityInterface;
 }
@@ -120,7 +121,7 @@ class ContractController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, partner, product, bank, status }: ContractInterface = req.body;
+      const { name, partner, product, bank, status, ade }: ContractInterface = req.body;
       const id = req.params.id;
 
       if (!id) return res.status(400).json({ message: 'Please send Contract id' });
@@ -135,6 +136,7 @@ class ContractController {
         product: product || contract.product,
         bank: bank || contract.bank,
         status: status || contract.status,
+        ade: ade || contract.ade
       };
 
       await Contract.update(id, { ...valuesToUpdate });
