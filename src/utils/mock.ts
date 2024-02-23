@@ -109,10 +109,9 @@ export const mocks = async (): Promise<void> => {
 
     if (!(await Company.findOne({ name: 'Google' }))) {
       for (const company of companies) {
-        // Armazena o objeto criado em uma variável
+        const userFind = await User.findOne({ email: 'admin@wavecrm.com.br'});
         const pipelineFind = await Pipeline.findOne({ name: 'Não iniciado'});
-        const newCompany = await Company.create({ ...company, pipeline: pipelineFind }).save();
-        // Acessa a propriedade id do objeto
+        const newCompany = await Company.create({ ...company, pipeline: pipelineFind, user: userFind }).save();
         console.log(`Canal ${company.name}, de id: ${newCompany.id} criada`);
       }
       console.log('companies ok');

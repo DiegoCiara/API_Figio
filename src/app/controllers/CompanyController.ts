@@ -1,5 +1,6 @@
 import Company from '@entities/Company';
 import Pipelines from '@entities/Pipeline';
+import Users from '@entities/User';
 import queryBuilder from '@utils/queryBuilder';
 import { Request, Response } from 'express';
 
@@ -12,6 +13,8 @@ interface CompanyInterface {
   site?: string;
   pipeline?: Pipelines;
   pipelineId?: string;
+  user?: Users;
+  userId?: string;
   picture?: string;
 }
 
@@ -42,28 +45,34 @@ class CompanyController {
 
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, country, state, city, site, picture, pipelineId }: CompanyInterface = req.body;
+      const { name, country, state, city, site, picture, pipelineId, userId }: CompanyInterface = req.body;
 
       const findPipeline = await Pipelines.findOne({ id: pipelineId })
+      
+      const findUser =  await Users.findOne({ id: userId })
+
       if (!name) return res.status(400).json({ message: 'Invalid company name' });
 
-      const company = await Company.create({ name, country, state, city, site, picture, pipeline: findPipeline }).save();
+      const company = await Company.create({ name, country, state, city, site, picture, pipeline: findPipeline, user: findUser }).save();
 
       if (!company) return res.status(400).json({ message: 'Cannot create company' });
 
       return res.status(201).json({ id: company.id, message: 'Company created successfully' });
     } catch (error) {
+      
       return res.status(404).json({ message: 'Create failed, try again' });
     }
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, country, state, city, site, picture, pipelineId }: CompanyInterface = req.body;
+      const { name, country, state, city, site, picture, pipelineId, userId }: CompanyInterface = req.body;
       const id = req.params.id;
 
 
       const findPipeline = await Pipelines.findOne({ id: pipelineId })
+
+      const findUser =  await Users.findOne({ id: userId })
 
       const company = await Company.findOne(id);
 
@@ -77,6 +86,7 @@ class CompanyController {
         site: site || company.site,
         picture: picture || company.picture,
         pipeline: findPipeline|| company.pipeline,
+        user: findUser|| company.user,
       };
 
       await Company.update(id, { ...valuesToUpdate });

@@ -1,5 +1,4 @@
 import Automations from '@entities/Automation';
-import Companies from '@entities/Company';
 import Company from '@entities/Company';
 import Contact from '@entities/Contact';
 import Convenio from '@entities/Convenio';
@@ -7,7 +6,7 @@ import Deals from '@entities/Deal';
 import Mailers from '@entities/Mailer';
 import Pipelines from '@entities/Pipeline';
 import Product from '@entities/Product';
-import Users from '@entities/User';
+import User from '@entities/User';
 import confirm from '@src/modules/confirm';
 import transport from '@src/modules/mailer';
 import { companies, deals } from '@utils/dataMock';
@@ -55,6 +54,8 @@ interface ContactLandingPage {
   product?: string;
   convenio?: string;
   company?: string;
+  user?: string;
+  pipeline?: string;
 }
 
 class ContactController {
@@ -117,7 +118,7 @@ class ContactController {
 
       if (!name || !company || !convenio ) return res.status(400).json({message: 'Invalid values for contacts'});
 
-      const findUser = await Users.findOne({ id: user });
+      const findUser = await User.findOne({ id: user });
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
@@ -169,7 +170,7 @@ class ContactController {
 
             const mailerProWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Empresarial"});
             const mailerPersonWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Pessoal"});
-            const createdBy = await  Users.findOne(req.userId)
+            const createdBy = await  User.findOne(req.userId)
 
           if (mailerProWithOutput) {
             console.log(mailerProWithOutput)
@@ -318,6 +319,8 @@ class ContactController {
           company,
           convenio,
           product,
+          user,
+          pipeline,
         }: ContactLandingPage = req.body;
 
       console.log({
@@ -327,18 +330,16 @@ class ContactController {
         company,
         convenio,
         product,
+        user,
+        pipeline,
       })
 
       if (!name || !company || !product ) return res.status(400).json({message: 'Invalid values for contacts'});
 
-      const findUser = await Users.findOne({ email: 'admin@wavecrm.com.br' });
-      const findCompany = await Companies.findOne({ id: company });
-      console.log('FINDCOMPANY ====> ', await Companies.findOne({ id: company }))
+      const findCompany = await Company.findOne({ id: company }, { relations: ['user','pipeline'] });
       const findProduct = await Product.findOne({ id: product });
       const findConvenio = await Convenio.findOne({ id : convenio });
-      const pipelineFind = await Pipelines.findOne( findCompany?.pipeline ); 
 
-      console.log(pipelineFind)
       const contact = await Contact.create({ 
         name,
         cpf,
@@ -347,9 +348,12 @@ class ContactController {
         company: findCompany,
       }).save();
 
+
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
       try{  
+      const pipelineFind = await Pipelines.findOne({ id: pipeline }); 
+        const findUser = await User.findOne({ id: user});
         if (!(await Deals.findOne({ contact: contact }))) {
           for (let index = 0; index < deals.length; index++) {
             const deal = deals[index];
@@ -368,8 +372,8 @@ class ContactController {
                   description: '',
                   createdAt: new Date(),
                   createdBy: { 
-                    id: findUser.id, 
-                    name: findUser.name 
+                    id: findUser?.id, 
+                    name: findUser?.name 
                   },
                   tag: 'HOT',
                 },
@@ -396,7 +400,7 @@ class ContactController {
       //   template: 'newRequest',
       //   context: { name, email, phone, Origin },
       // },
-      // (err) => {
+      // (err) => { 
       //   if (err) console.log('Email not sent')
 
       //   transport.close();

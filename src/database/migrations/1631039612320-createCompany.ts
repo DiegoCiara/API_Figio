@@ -28,6 +28,11 @@ export class createCompany1631039612320 implements MigrationInterface {
             type: 'uuid',
           },
           {
+            // ref
+            name: 'user',
+            type: 'uuid',
+          },
+          {
             name: 'state',
             type: 'varchar',
             isNullable: true,
@@ -69,6 +74,14 @@ export class createCompany1631039612320 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ['pipeline'],
         referencedTableName: 'pipelines', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
+        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
+      })
+    );
+    await queryRunner.createForeignKey(
+      'companies',
+      new TableForeignKey({
+        columnNames: ['user'],
+        referencedTableName: 'users', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
         referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
       })
     );
