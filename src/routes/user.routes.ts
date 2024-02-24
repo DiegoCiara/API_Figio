@@ -8,6 +8,7 @@ import { ensureAuthenticated } from '@middlewares/ensureAuthenticated';
 const routes = Router();
 
 routes.get('/', ensureAuthenticated, ensureAdmin, UserController.findUsers);
+routes.get('/users', UserController.findUsers);
 routes.get('/:id', ensureAuthenticated, ensureAdminOrOwner, UserController.findUserById);
 routes.put('/:id', ensureAuthenticated, ensureAdminOrOwner, UserController.update);
 routes.put('/update-password/:id', ensureAuthenticated, ensureOwner, UserController.passwordUpdate);

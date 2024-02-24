@@ -1,19 +1,19 @@
 import Automations from '@entities/Automation';
-import Companies from '@entities/Company';
 import Company from '@entities/Company';
 import Contact from '@entities/Contact';
 import Convenio from '@entities/Convenio';
 import Deals from '@entities/Deal';
 import Mailers from '@entities/Mailer';
 import Pipelines from '@entities/Pipeline';
-import Users from '@entities/User';
+import Product from '@entities/Product';
+import User from '@entities/User';
 import confirm from '@src/modules/confirm';
 import transport from '@src/modules/mailer';
 import { companies, deals } from '@utils/dataMock';
 import queryBuilder from '@utils/queryBuilder';
 import { Request, Response } from 'express';
 import { pipeline } from 'stream';
-
+ 
 interface ContactInterface {
   name?: string;
   cpf?: string;
@@ -24,8 +24,38 @@ interface ContactInterface {
   district?: string;
   city?: string;
   state?: string;
+  rg: string;
+  expeditionDate: string;
+  emissorOrg: string;
+  naturality: string;
+  bornDate: string;
+  age: string;
+  gender: string;
+  motherName: string;
+  motherCpf: string;
+  fatherName: string;
+  benefitType: string;
+  benefitValue: string;
+  benefitNumber: string;
+  bank: string;
+  agency: string;
+  account: string;
+  accountType: string;
   convenio?: Convenio;
   company?: Company;
+  user?: string;
+}
+
+ 
+interface ContactLandingPage {
+  name?: string;
+  cpf?: string;
+  phone?: string;
+  product?: string;
+  convenio?: string;
+  company?: string;
+  user?: string;
+  pipeline?: string;
 }
 
 class ContactController {
@@ -54,15 +84,74 @@ class ContactController {
   }
   public async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, cpf, email, phone, cep, address, district, city, state, company, convenio }: ContactInterface = req.body;
+      const { 
+          name,
+          cpf,
+          rg,
+          expeditionDate,
+          emissorOrg,
+          naturality,
+          bornDate,
+          age,
+          gender,
+          motherName,
+          motherCpf,
+          fatherName,
+          benefitType,
+          benefitValue,
+          benefitNumber,
+          bank,
+          agency,
+          account,
+          accountType,
+          email,
+          phone,
+          cep,
+          address,
+          district,
+          city,
+          state,
+          company,
+          convenio,
+          user,
+        }: ContactInterface = req.body;
 
-      if (!name || !company || !convenio) return res.status(400).json({message: 'Invalid values for contacts'});
+      if (!name || !company || !convenio ) return res.status(400).json({message: 'Invalid values for contacts'});
 
-      // const findContact = await Contact.findOne({ email });
+      const findUser = await User.findOne({ id: user });
 
       // if (findContact) return res.status(400).json({ message: 'Contact already exists' });
 
-      const contact = await Contact.create({ name, cpf, email, phone, cep, address, district, city, state, convenio, company }).save();
+      const contact = await Contact.create({ 
+        name,
+        cpf,
+        rg,
+        expeditionDate,
+        emissorOrg,
+        naturality,
+        bornDate,
+        age,
+        gender,
+        motherName,
+        motherCpf,
+        fatherName,
+        benefitType,
+        benefitValue,
+        benefitNumber,
+        bank,
+        agency,
+        account,
+        accountType,
+        email,
+        phone,
+        cep,
+        address,
+        district,
+        city,
+        state,
+        convenio,
+        company 
+      }).save();
 
       if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
 
@@ -81,7 +170,7 @@ class ContactController {
 
             const mailerProWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Empresarial"});
             const mailerPersonWithOutput = await Mailers.findOne({ subject: automationData.output, template: "Pessoal"});
-            const createdBy = await  Users.findOne(req.userId)
+            const createdBy = await  User.findOne(req.userId)
 
           if (mailerProWithOutput) {
             console.log(mailerProWithOutput)
@@ -99,7 +188,7 @@ class ContactController {
             
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@figio.com.br',
+            //   from: 'contato@wavecrm.com.br',
             //   subject: Subject,
             //   template: 'ProfessionalMailer',
             //   context: {Responsible, Photo, Title, Text, Contact, Color, Client },
@@ -127,7 +216,7 @@ class ContactController {
 
             // transport.sendMail({
             //   to: Email,
-            //   from: 'contato@figio.com.br',
+            //   from: 'contato@wavecrm.com.br',
             //   subject: Subject,
             //   template: 'PersonalMailer',
             //   context: {Responsible, Photo, Title, Text, Color, Contact, Client },
@@ -143,7 +232,6 @@ class ContactController {
            else if ( CreateNegociation ){
             try{  
               const tasksInsert = automationData.output;
-              const createdUser = await Users.findOne(req.userId);
               const companiesFind = await Company.find();
               const contactFind = await Contact.find();
               const pipelineFind = await Pipelines.findOne({id: automationData.output});
@@ -159,7 +247,7 @@ class ContactController {
                     name: 'Negociação ' + convenioDeal.name,
                     pipeline: pipelineFind,
                     company: contact.company,
-                    user: createdUser,
+                    user: findUser,
                     createdAt: new Date(),
                     contact: contact,
                     activity: [
@@ -167,7 +255,7 @@ class ContactController {
                         name: 'Iniciado por automação',
                         description: '',
                         createdAt: new Date(),
-                        createdBy: { id: createdUser.id, name: createdUser.name },
+                        createdBy: { id: findUser.id, name: findUser.name },
                         tag: 'HOT',
                       },
                     ],
@@ -189,7 +277,7 @@ class ContactController {
       // const Origin = contact.state;
       // confirm.sendMail({
       //   to: "suporte.diegociara@gmail.com",
-      //   from: '"figio" <api@contato.com>',
+      //   from: '"wavecrm" <api@contato.com>',
       //   subject: `Solicitação de ${name}`, // assunto do email
       //   template: 'newRequest',
       //   context: { name, email, phone, Origin },
@@ -202,7 +290,125 @@ class ContactController {
 
       // transport.sendMail({
       //   to: email,
-      //   from: 'contato@figio.com.br',
+      //   from: 'contato@wavecrm.com.br',
+      //   subject: 'Solicitação de acesso ', // assunto do email
+      //   template: 'newContact',
+
+      //   context: { name },
+      // },
+      // (err) => {
+      //   if (err) console.log('Email not sent')
+
+      //   transport.close();
+      // });
+
+      return res.status(201).json({ id: contact.id });
+    } catch (error) {
+      console.error(error);
+      return res.status(404).json({ error: 'Create contact failed, try again' });
+    }
+  }
+
+
+  public async createLandingPage(req: Request, res: Response): Promise<Response> {
+    try {
+      const { 
+          name,
+          cpf,
+          phone,
+          company,
+          convenio,
+          product,
+          user,
+          pipeline,
+        }: ContactLandingPage = req.body;
+
+      console.log({
+        name,
+        cpf,
+        phone,
+        company,
+        convenio,
+        product,
+        user,
+        pipeline,
+      })
+
+      if (!name || !company || !product ) return res.status(400).json({message: 'Invalid values for contacts'});
+
+      const findCompany = await Company.findOne({ id: company }, { relations: ['user','pipeline'] });
+      const findProduct = await Product.findOne({ id: product });
+      const findConvenio = await Convenio.findOne({ id : convenio });
+
+      const contact = await Contact.create({ 
+        name,
+        cpf,
+        phone, 
+        convenio: findConvenio,
+        company: findCompany,
+      }).save();
+
+
+      if (!contact) return res.status(400).json({ message: 'Cannot create contact' });
+
+      try{  
+      const pipelineFind = await Pipelines.findOne({ id: pipeline }); 
+        const findUser = await User.findOne({ id: user});
+        if (!(await Deals.findOne({ contact: contact }))) {
+          for (let index = 0; index < deals.length; index++) {
+            const deal = deals[index];
+            await Deals.create({
+              ...deal,
+              name:`Negociação ${contact.name}`,
+              company: findCompany,
+              pipeline: pipelineFind,
+              user: findUser,
+              createdAt: new Date(),
+              product: findProduct,
+              contact: contact,
+              activity: [
+                {
+                  name: 'Iniciado por Landing Page',
+                  description: '',
+                  createdAt: new Date(),
+                  createdBy: { 
+                    id: findUser?.id, 
+                    name: findUser?.name 
+                  },
+                  tag: 'HOT',
+                },
+              ],
+              value: 0,
+              status: 'INPROGRESS',
+            }).save();
+          }
+        }
+  
+      
+      } catch (error) {
+        console.log(error)
+        return res.status(400).json({ error: 'Cannot insert activity, try again' });
+      }
+
+      
+      // Notificação para adm ao criar um contato
+      // const Origin = contact.state;
+      // confirm.sendMail({
+      //   to: "suporte.diegociara@gmail.com",
+      //   from: '"wavecrm" <api@contato.com>',
+      //   subject: `Solicitação de ${name}`, // assunto do email
+      //   template: 'newRequest',
+      //   context: { name, email, phone, Origin },
+      // },
+      // (err) => { 
+      //   if (err) console.log('Email not sent')
+
+      //   transport.close();
+      // });
+
+      // transport.sendMail({
+      //   to: email,
+      //   from: 'contato@wavecrm.com.br',
       //   subject: 'Solicitação de acesso ', // assunto do email
       //   template: 'newContact',
 
@@ -225,7 +431,36 @@ class ContactController {
     try {
       const id = req.params.id;
       
-      const { name, cpf, email, phone, cep, address, district, city, state, convenio, company }: ContactInterface = req.body;
+      const { 
+        name,
+        cpf,
+        rg,
+        expeditionDate,
+        emissorOrg,
+        naturality,
+        bornDate,
+        age,
+        gender,
+        motherName,
+        motherCpf,
+        fatherName,
+        benefitType,
+        benefitValue,
+        benefitNumber,
+        bank,
+        agency,
+        account,
+        accountType,
+        email,
+        phone,
+        cep,
+        address,
+        district,
+        city,
+        state,
+        convenio,
+        company 
+       }: ContactInterface = req.body;
 
       if (!id) return res.status(404).json({ message: 'Please send contact id' });
 
@@ -237,6 +472,23 @@ class ContactController {
         name: name || contact.name,
         email: email || contact.email,
         cpf: cpf || contact.cpf,
+        rg: rg || contact.rg,
+        expeditionDate: expeditionDate || contact.expeditionDate,
+        emissorOrg: emissorOrg || contact.emissorOrg,
+        naturality: naturality || contact.naturality,
+        bornDate: bornDate || contact.bornDate,
+        age: age || contact.age,
+        gender: gender || contact.gender,
+        motherName: motherName || contact.motherName,
+        motherCpf: motherCpf || contact.motherCpf,
+        fatherName: fatherName || contact.fatherName,
+        benefitType: benefitType || contact.benefitType,
+        benefitValue: benefitValue || contact.benefitValue,
+        benefitNumber: benefitNumber || contact.benefitNumber,
+        bank: bank || contact.bank,
+        agency: agency || contact.agency,
+        account: account || contact.account,
+        accountType: accountType || contact.accountType,
         convenio: convenio || contact.convenio,
         phone: phone || contact.phone,
         cep: cep || contact.cep,
@@ -251,6 +503,7 @@ class ContactController {
 
       return res.status(200).json();
     } catch (error) {
+      console.log(error)
       return res.status(404).json({ error: 'Update failed, try again' });
     }
   }

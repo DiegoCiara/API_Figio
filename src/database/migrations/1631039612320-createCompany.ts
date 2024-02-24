@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
 export class createCompany1631039612320 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -21,6 +21,16 @@ export class createCompany1631039612320 implements MigrationInterface {
             name: 'country',
             type: 'varchar',
             isNullable: true,
+          },
+          {
+            // ref
+            name: 'pipeline',
+            type: 'uuid',
+          },
+          {
+            // ref
+            name: 'user',
+            type: 'uuid',
           },
           {
             name: 'state',
@@ -57,6 +67,22 @@ export class createCompany1631039612320 implements MigrationInterface {
             type: 'timestamp',
           },
         ],
+      })
+    ); 
+    await queryRunner.createForeignKey(
+      'companies',
+      new TableForeignKey({
+        columnNames: ['pipeline'],
+        referencedTableName: 'pipelines', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
+        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
+      })
+    );
+    await queryRunner.createForeignKey(
+      'companies',
+      new TableForeignKey({
+        columnNames: ['user'],
+        referencedTableName: 'users', // Substitua 'nome_da_outra_tabela' pelo nome correto da tabela
+        referencedColumnNames: ['id'] // Substitua 'id' pela coluna de referência na outra tabela
       })
     );
   }

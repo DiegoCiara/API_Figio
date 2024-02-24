@@ -47,6 +47,9 @@ class Contracts extends BaseEntity {
   @Column({nullable: true})
   bank: string;
 
+  @Column({nullable: true})
+  ade: string;
+
   @ManyToOne((type) => User)
   @JoinColumn()
   seller: User;

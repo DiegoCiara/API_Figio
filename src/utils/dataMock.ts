@@ -58,7 +58,7 @@ const goal = [
 const contacts = [
   {
     name: 'Exemplo de Contato',
-    email: 'teste@figio.com.br',
+    email: 'teste@wavecrm.com.br',
     phone: '12987979532',
     city: 'São Paulo',
     state: 'SP',
@@ -122,24 +122,24 @@ const Models =[
 
 const pipelines = [
   {
-    name: 'Lead',
-    description: "Sem contato, efetue um contato com informações relevante sobre o produto/serviço e mova para próxima etapa."
+    name: 'Não iniciado',
+    description: "As negociações dessa coluna não possuem contratos, gere um contrato e mova-os para andamento, para "
   },
   {
-    name: 'Primeiro contato',
-    description: "Primeiro contato efetuado com o lead. Aguarde a resposta para iniciar uma simulação."
+    name: 'Esteira de digitação',
+    description: "Propostas aguardando digitação, insira as propostas no banco para gerar os contratos."
   },
   {
-    name: 'Simulação',
-    description: "Efetue uma simulação, repasse os valores e aguararde a confirmação para enviar para análise bancária, ou negociar as condições do crédito."
+    name: 'Pendente',
+    description: "Contratos com pendência, regularize as pendências e digite as propostas no banco mais uma vez"
   },
   {
-    name: 'Proposta',
-    description: "Negocie as condições do crédito para fechamento da proposta."
+    name: 'Em análise',
+    description: "Propostas em análise na fila do banco, aguarde o pagamento e atualize os status das negociações assim que possível, status CONVERTIDA para os contratos pagos, PERDIDA para os contratos cancelados e ARQUIVADOS para os contratos que não terão seguimento no momento."
   },
   {
-    name: 'Análise bancária',
-    description: "Aguardando liberação do crédito pela análise bancária."
+    name: 'Pendente de desbloqueio',
+    description: "Solicite e aguarde o desbloqueio de benefício."
   },
 ];
 
@@ -259,7 +259,7 @@ const Consulting =[
 const users = [
   {
     name: 'Suporte Técnico',
-    email: 'suporte@figio.com.br',
+    email: 'suporte@wavecrm.com.br',
     role: 'ADMIN',
     password: 'die140401',
   },
@@ -267,7 +267,7 @@ const users = [
 
 const partners = [
   {
-    name: 'Figio',
+    name: 'Wave CRM',
     type: 'Promotora',
   },
 ];

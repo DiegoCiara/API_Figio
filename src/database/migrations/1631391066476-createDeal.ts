@@ -25,6 +25,11 @@ export class createDeal1631391066476 implements MigrationInterface {
           },
           {
             // ref
+            name: 'product',
+            type: 'uuid',
+          },
+          {
+            // ref
             name: 'user',
             type: 'uuid',
           },
@@ -40,6 +45,11 @@ export class createDeal1631391066476 implements MigrationInterface {
           {
             name: 'deadline',
             type: 'timestamp',
+            isNullable: true,
+          },
+          {
+            name: 'term',
+            type: 'varchar',
             isNullable: true,
           },
           {
@@ -95,6 +105,14 @@ export class createDeal1631391066476 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ['company'],
         referencedTableName: 'companies',
+        referencedColumnNames: ['id']
+      })
+    );
+    await queryRunner.createForeignKey(
+      'deals',
+      new TableForeignKey({
+        columnNames: ['user'],
+        referencedTableName: 'users',
         referencedColumnNames: ['id']
       })
     );

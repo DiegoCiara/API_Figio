@@ -61,10 +61,9 @@ class UserController {
 
       transport.sendMail({
         to: email,
-        from: 'contato@figio.com.br',
-        subject: 'Figio Plataforma' , // assunto do email
+        from: 'contato@wavecrm.com.br',
+        subject: 'Wave CRM Plataforma' , // assunto do email
         template: 'newUser',
-
         context: {client, name, password , email },
       },
       (err) => {
