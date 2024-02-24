@@ -64,7 +64,6 @@ class UserController {
         from: 'contato@wavecrm.com.br',
         subject: 'Wave CRM Plataforma' , // assunto do email
         template: 'newUser',
-
         context: {client, name, password , email },
       },
       (err) => {

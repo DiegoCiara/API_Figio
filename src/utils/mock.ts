@@ -22,7 +22,7 @@ export const mocks = async (): Promise<void> => {
         email: 'admin@wavecrm.com.br', 
         role: 'ADMIN', 
         passwordHash: pass, 
-        picture: 'https://wavecrm.vercel.app/logo-a.png' 
+        picture: 'https://www.wavecrm.com.br/favicon.svg' 
       }).save();
       console.log('users ok');
     }
